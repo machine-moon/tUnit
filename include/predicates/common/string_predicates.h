@@ -3,32 +3,50 @@
 #include <string>
 #include <string_view>
 
+#include "../predicate_config.h"
+
 namespace tunit {
 namespace predicates {
 
-// ==================== String Comparison Predicates ====================
-
+/**
+ * @brief Tests if a string contains a specified substring
+ */
 struct contains_substring {
+  TUNIT_CONSTEXPR contains_substring() noexcept = default;
+
   template <typename T, typename U>
-  constexpr bool operator()(const T& str, const U& substr) const noexcept {
+  TUNIT_CONSTEXPR bool operator()(const T& str, const U& substr) const {
+    TUNIT_TRACE_PREDICATE("contains_substring");
     std::string_view str_view{str};
     std::string_view substr_view{substr};
     return str_view.find(substr_view) != std::string_view::npos;
   }
 };
 
+/**
+ * @brief Tests if a string starts with a specified prefix
+ */
 struct starts_with {
+  TUNIT_CONSTEXPR starts_with() noexcept = default;
+
   template <typename T, typename U>
-  constexpr bool operator()(const T& str, const U& prefix) const noexcept {
+  TUNIT_CONSTEXPR bool operator()(const T& str, const U& prefix) const {
+    TUNIT_TRACE_PREDICATE("starts_with");
     std::string_view str_view{str};
     std::string_view prefix_view{prefix};
     return str_view.size() >= prefix_view.size() && str_view.substr(0, prefix_view.size()) == prefix_view;
   }
 };
 
+/**
+ * @brief Tests if a string ends with a specified suffix
+ */
 struct ends_with {
+  TUNIT_CONSTEXPR ends_with() noexcept = default;
+
   template <typename T, typename U>
-  constexpr bool operator()(const T& str, const U& suffix) const noexcept {
+  TUNIT_CONSTEXPR bool operator()(const T& str, const U& suffix) const {
+    TUNIT_TRACE_PREDICATE("ends_with");
     std::string_view str_view{str};
     std::string_view suffix_view{suffix};
     return str_view.size() >= suffix_view.size() && str_view.substr(str_view.size() - suffix_view.size()) == suffix_view;

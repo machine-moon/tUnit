@@ -64,6 +64,9 @@ target_link_libraries(LogicalPredicatesTest PRIVATE tunit)
 add_executable(SyntaxDemoTest tests/syntax_demo_test.cpp)
 target_link_libraries(SyntaxDemoTest PRIVATE tunit)
 
+add_executable(ExceptionTracingTest tests/exception_tracing_test.cpp)
+target_link_libraries(ExceptionTracingTest PRIVATE tunit)
+
 # Main test runner
 add_executable(TestRunner tests/main.cpp)
 target_link_libraries(TestRunner PRIVATE tunit)
@@ -76,6 +79,7 @@ add_test(NAME LogicalPredicatesTests COMMAND LogicalPredicatesTest)
 add_test(NAME ContainerPredicatesTests COMMAND ContainerPredicatesTest)
 add_test(NAME IntegrationTests COMMAND IntegrationTest)
 add_test(NAME SyntaxDemoTests COMMAND SyntaxDemoTest)
+add_test(NAME ExceptionTracingTests COMMAND ExceptionTracingTest)
 
 
 

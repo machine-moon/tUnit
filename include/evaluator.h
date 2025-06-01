@@ -42,7 +42,7 @@ class Evaluator {
   P pred_;
 
  public:
-  explicit constexpr Evaluator(const T& lhs, const U& rhs, P pred) noexcept : lhs_(lhs), rhs_(rhs), pred_(pred) {}
+  constexpr Evaluator(const T& lhs, const U& rhs, P pred) noexcept : lhs_(lhs), rhs_(rhs), pred_(pred) {}
 
   bool use(const T& lhs, const U& rhs) const { return pred_(lhs, rhs); }
   bool compare(const U& rhs) const { return pred_(lhs_, rhs); }

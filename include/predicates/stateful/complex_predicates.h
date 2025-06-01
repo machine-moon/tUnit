@@ -8,50 +8,67 @@
 #include <type_traits>
 #include <utility>
 
+#include "../predicate_config.h"
+
 namespace tunit {
 namespace predicates {
 
-// ==================== Complex Predicate Compositions ====================
+// ********************** Complex Predicate Compositions **********************
 
+/**
+ * @brief Tests if all provided predicates return true
+ */
 template <typename... P>
 struct all_of {
   std::tuple<P...> predicates_;
 
   template <typename... Preds>
-  constexpr explicit all_of(Preds&&... preds) noexcept : predicates_(std::forward<Preds>(preds)...) {}
+  TUNIT_CONSTEXPR all_of(Preds&&... preds) noexcept : predicates_(std::forward<Preds>(preds)...) {}
 
   template <typename... Args>
-  constexpr bool operator()(Args&&... args) const noexcept {
+  TUNIT_CONSTEXPR bool operator()(Args&&... args) const {
+    TUNIT_TRACE_PREDICATE("all_of");
     return std::apply([&args...](const auto&... preds) { return (preds(args...) && ...); }, predicates_);
   }
 };
 
+/**
+ * @brief Tests if any of the provided predicates return true
+ */
 template <typename... P>
 struct any_of {
   std::tuple<P...> predicates_;
 
   template <typename... Preds>
-  constexpr explicit any_of(Preds&&... preds) noexcept : predicates_(std::forward<Preds>(preds)...) {}
+  TUNIT_CONSTEXPR any_of(Preds&&... preds) noexcept : predicates_(std::forward<Preds>(preds)...) {}
 
   template <typename... Args>
-  constexpr bool operator()(Args&&... args) const noexcept {
+  TUNIT_CONSTEXPR bool operator()(Args&&... args) const {
+    TUNIT_TRACE_PREDICATE("any_of");
     return std::apply([&args...](const auto&... preds) { return (preds(args...) || ...); }, predicates_);
   }
 };
 
+/**
+ * @brief Tests if none of the provided predicates return true
+ */
 template <typename... P>
 struct none_of {
   std::tuple<P...> predicates_;
 
   template <typename... Preds>
-  constexpr explicit none_of(Preds&&... preds) noexcept : predicates_(std::forward<Preds>(preds)...) {}
+  TUNIT_CONSTEXPR none_of(Preds&&... preds) noexcept : predicates_(std::forward<Preds>(preds)...) {}
 
   template <typename... Args>
-  constexpr bool operator()(Args&&... args) const noexcept {
+  TUNIT_CONSTEXPR bool operator()(Args&&... args) const {
+    TUNIT_TRACE_PREDICATE("none_of");
     return std::apply([&args...](const auto&... preds) { return !(preds(args...) || ...); }, predicates_);
   }
 };
 
+/**
+ * @brief Conditional predicate that applies different predicates based on a condition
+ */
 template <typename C, typename T, typename E>
 struct conditional {
   C condition_;
@@ -59,56 +76,69 @@ struct conditional {
   E else_pred_;
 
   template <typename CondPred, typename ThenPred, typename ElsePred>
-  constexpr conditional(CondPred&& condition, ThenPred&& then_pred, ElsePred&& else_pred) noexcept : condition_(std::forward<CondPred>(condition)), then_pred_(std::forward<ThenPred>(then_pred)), else_pred_(std::forward<ElsePred>(else_pred)) {}
+  TUNIT_CONSTEXPR explicit conditional(CondPred&& condition, ThenPred&& then_pred, ElsePred&& else_pred) noexcept : condition_(std::forward<CondPred>(condition)), then_pred_(std::forward<ThenPred>(then_pred)), else_pred_(std::forward<ElsePred>(else_pred)) {}
 
   template <typename... Args>
-  constexpr bool operator()(Args&&... args) const noexcept {
+  TUNIT_CONSTEXPR bool operator()(Args&&... args) const {
+    TUNIT_TRACE_PREDICATE("conditional");
     return condition_(args...) ? then_pred_(args...) : else_pred_(args...);
   }
 };
 
+/**
+ * @brief Tests if exactly n of the provided predicates return true
+ */
 template <typename... P>
 struct exactly_n_of {
   std::tuple<P...> predicates_;
   std::size_t expected_count_;
 
   template <typename... Preds>
-  constexpr exactly_n_of(std::size_t n, Preds&&... preds) noexcept : predicates_(std::forward<Preds>(preds)...), expected_count_(n) {}
+  TUNIT_CONSTEXPR exactly_n_of(std::size_t n, Preds&&... preds) noexcept : predicates_(std::forward<Preds>(preds)...), expected_count_(n) {}
 
   template <typename... Args>
-  constexpr bool operator()(Args&&... args) const noexcept {
+  TUNIT_CONSTEXPR bool operator()(Args&&... args) const {
+    TUNIT_TRACE_PREDICATE("exactly_n_of");
     std::size_t count = 0;
     std::apply([&count, &args...](const auto&... preds) { ((count += preds(args...) ? 1 : 0), ...); }, predicates_);
     return count == expected_count_;
   }
 };
 
+/**
+ * @brief Tests if at least n of the provided predicates return true
+ */
 template <typename... P>
 struct at_least_n_of {
   std::tuple<P...> predicates_;
   std::size_t min_count_;
 
   template <typename... Preds>
-  constexpr at_least_n_of(std::size_t n, Preds&&... preds) noexcept : predicates_(std::forward<Preds>(preds)...), min_count_(n) {}
+  TUNIT_CONSTEXPR at_least_n_of(std::size_t n, Preds&&... preds) noexcept : predicates_(std::forward<Preds>(preds)...), min_count_(n) {}
 
   template <typename... Args>
-  constexpr bool operator()(Args&&... args) const noexcept {
+  TUNIT_CONSTEXPR bool operator()(Args&&... args) const {
+    TUNIT_TRACE_PREDICATE("at_least_n_of");
     std::size_t count = 0;
     std::apply([&count, &args...](const auto&... preds) { ((count += preds(args...) ? 1 : 0), ...); }, predicates_);
     return count >= min_count_;
   }
 };
 
+/**
+ * @brief Tests if at most n of the provided predicates return true
+ */
 template <typename... P>
 struct at_most_n_of {
   std::tuple<P...> predicates_;
   std::size_t max_count_;
 
   template <typename... Preds>
-  constexpr at_most_n_of(std::size_t n, Preds&&... preds) noexcept : predicates_(std::forward<Preds>(preds)...), max_count_(n) {}
+  TUNIT_CONSTEXPR at_most_n_of(std::size_t n, Preds&&... preds) noexcept : predicates_(std::forward<Preds>(preds)...), max_count_(n) {}
 
   template <typename... Args>
-  constexpr bool operator()(Args&&... args) const noexcept {
+  TUNIT_CONSTEXPR bool operator()(Args&&... args) const {
+    TUNIT_TRACE_PREDICATE("at_most_n_of");
     std::size_t count = 0;
     std::apply([&count, &args...](const auto&... preds) { ((count += preds(args...) ? 1 : 0), ...); }, predicates_);
     return count <= max_count_;
@@ -116,6 +146,9 @@ struct at_most_n_of {
 };
 
 // ==================== Deduction Guides ====================
+
+
+// TODO: Implement automatic deduction guides for complex predicates
 
 // Deduction guide for all_of
 template <typename... Preds>
