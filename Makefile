@@ -1,21 +1,26 @@
-CC = g++
-CFLAGS = -Iinclude -std=c++17 -Wall -Wextra
-SRC = src/main.cpp src/evaluator.cpp
-OBJ = $(SRC:.cpp=.o)
-TARGET = evaluator
+.PHONY: build clean = lint tidy all check
 
-all: $(TARGET)
+BUILD_DIR := build
 
-$(TARGET): $(OBJ)
-	$(CC) -o $@ $^
+SRCS := $(shell find src -name '*.cpp')
+HDRS := $(shell find include -name '*.h')
+ALL_FILES := $(SRCS) $(HDRS) main.cpp
 
-%.o: %.cpp
-	$(CC) $(CFLAGS) -c $< -o $@
+all: build
+
+build:
+	rm -rf $(BUILD_DIR)
+	mkdir $(BUILD_DIR)
+	cmake -B $(BUILD_DIR) -G Ninja -DCMAKE_C_COMPILER=cc
+	cmake --build $(BUILD_DIR)
 
 clean:
-	rm -f $(OBJ) $(TARGET)
+	rm -rf $(BUILD_DIR)
 
-run: $(TARGET)
-	./$(TARGET)
+lint:
+	clang-format -i $(ALL_FILES)
 
-.PHONY: all clean run
+tidy:
+	clang-tidy $(SRCS) -- -Iinclude
+
+check: lint tidy

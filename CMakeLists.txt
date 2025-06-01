@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 project(TUNIT 
-    VERSION 1.0.0
+    VERSION 0.3.0
     LANGUAGES CXX
     DESCRIPTION "A C++ testing framework"
 )
@@ -10,10 +10,45 @@ project(TUNIT
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+# Compilers
+if(NOT DEFINED CMAKE_CXX_COMPILER)
+    set(CMAKE_CXX_COMPILER "g++" CACHE STRING "C++ compiler" FORCE)
+    message(WARNING "CMAKE_CXX_COMPILER was not set. Falling back to g++.")
+endif()
+message(STATUS "C++ compiler: ${CMAKE_CXX_COMPILER}")
+
+if(NOT DEFINED CMAKE_C_COMPILER)
+    set(CMAKE_C_COMPILER "gcc" CACHE STRING "C compiler" FORCE)
+    message(WARNING "CMAKE_C_COMPILER was not set. Falling back to gcc.")
+endif()
+message(STATUS "C compiler: ${CMAKE_C_COMPILER}")
+
+
+# Build configuration
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build type" FORCE)
+endif()
+
+# Compiler flags 
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_definitions(-DNDEBUG -DTUNIT_MODE=0)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -Wall -Wextra")
+elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+    add_definitions(-DNDEBUG -DTUNIT_MODE=1)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -DNDEBUG")
+elseif(CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
+    add_definitions(-DNDEBUG -DTUNIT_MODE=0)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -g")
+elseif(CMAKE_BUILD_TYPE STREQUAL "MinSizeRel")
+    add_definitions(-DNDEBUG -DTUNIT_MODE=1)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Os -DNDEBUG")
+endif()
+
 # Library Sources
 set(TUNIT_LIB_SOURCES
     src/utils/test_runner.cpp
     src/utils/test_runner_utils.cpp
+    src/utils/trace_support.cpp
 )
 
 # Static Library Target
@@ -80,6 +115,5 @@ add_test(NAME ContainerPredicatesTests COMMAND ContainerPredicatesTest)
 add_test(NAME IntegrationTests COMMAND IntegrationTest)
 add_test(NAME SyntaxDemoTests COMMAND SyntaxDemoTest)
 add_test(NAME ExceptionTracingTests COMMAND ExceptionTracingTest)
-
 
 

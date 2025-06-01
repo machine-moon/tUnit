@@ -145,8 +145,7 @@ struct at_most_n_of {
   }
 };
 
-// ==================== Deduction Guides ====================
-
+// ********************** Deduction Guides **********************
 
 // TODO: Implement automatic deduction guides for complex predicates
 

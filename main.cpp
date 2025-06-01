@@ -40,8 +40,9 @@ int main() {
   tunit::Evaluator test2(1, 1, someSpace::is_greater_equal<int>);
 
   // To avoid implicit function predicates:
-  int a{}, b{};
-  tunit::Evaluator testDecla(a, b, someSpace::is_greater_equal<decltype(a)>);  // better but still ugly
+  int valA{};
+  int valB{};
+  tunit::Evaluator testDecla(valA, valB, someSpace::is_greater_equal<decltype(valA)>);  // better but still ugly
 
   // Test 3: Function object (functor) predicate - best option
   tunit::Evaluator test3(1, 1, IsEqualFunctor{});
@@ -57,8 +58,7 @@ int main() {
   std::cout << "\ntest2 (namespace::template_function): " << test2();
   std::cout << "\ntest3 (functor: recommended option): " << test3();
   std::cout << "\ntest4 (lambda wrapper around namespace::template_func): " << test4();
-  std::cout << "\ntest5 (inline lambda): " << test5.evaluate();
-  std::cout << std::endl;
+  std::cout << "\ntest5 (inline lambda): " << test5.evaluate() << '\n';
 
   return 0;
 }

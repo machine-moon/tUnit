@@ -38,7 +38,7 @@ class TestRunner {
   static int& get_total_fails();
   static std::vector<std::string>& get_failed_tests();
 
-  TestRunner(const std::string& suite_name);
+  TestRunner(std::string suite_name);
   void record_result(const std::string& test_name, bool passed);
 
  public:

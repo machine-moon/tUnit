@@ -10,14 +10,11 @@
 namespace tunit {
 namespace trace {
 
-// Convenience macros for easy tracing
-#define TUNIT_TRACE_SCOPE(name) tunit::trace::TraceScope _trace_scope_##__LINE__(name)
+#define TUNIT_TRACE_SCOPE(name) tunit::trace::TraceScope _trace_scope_##__LINE__(name)  // custom message for each scope
 #define TUNIT_TRACE_FUNCTION() TUNIT_TRACE_SCOPE(__func__)
 
-// Forward declaration
 class TraceScope;
 
-// Exception that accumulates trace information as it bubbles up
 class TracedException : public std::runtime_error {
  private:
   std::vector<std::string> trace_stack_;
@@ -27,10 +24,8 @@ class TracedException : public std::runtime_error {
  public:
   TracedException(const std::string& message) : std::runtime_error(message), original_message_(message) {}
 
-  // Add trace information as exception bubbles up
   void add_trace(const std::string& context) {
     trace_stack_.push_back(context);
-    // Mark that message needs updating
     full_message_.clear();
   }
 
@@ -59,7 +54,6 @@ class TracedException : public std::runtime_error {
   }
 };
 
-// Thread-local trace context for automatic tracing
 class TraceContext {
  private:
   static thread_local std::vector<std::string> current_trace_;
@@ -75,7 +69,6 @@ class TraceContext {
 
   static std::vector<std::string> get_current_trace() { return current_trace_; }
 
-  // Enrich any exception with current trace context
   static void enrich_exception(TracedException& ex) {
     for (const auto& scope : current_trace_) {
       ex.add_trace(scope);
@@ -83,7 +76,6 @@ class TraceContext {
   }
 };
 
-// RAII scope guard for automatic trace management
 class TraceScope {
  private:
   std::string scope_name_;
@@ -93,14 +85,14 @@ class TraceScope {
 
   ~TraceScope() { TraceContext::pop_scope(); }
 
-  // Non-copyable, non-movable for safety
+  // Non-copyable/movable for safety
   TraceScope(const TraceScope&) = delete;
   TraceScope& operator=(const TraceScope&) = delete;
   TraceScope(TraceScope&&) = delete;
   TraceScope& operator=(TraceScope&&) = delete;
 };
 
-// Helper function to throw with automatic trace enrichment
+// Automatic trace enrichment
 template <typename... Args>
 [[noreturn]] void throw_traced(Args&&... args) {
   try {
@@ -108,14 +100,15 @@ template <typename... Args>
     TraceContext::enrich_exception(ex);
     throw ex;
   } catch (TracedException& ex) {
-    // If it's already a TracedException, just enrich and re-throw
-    TraceContext::enrich_exception(ex);
-    throw;
+    // Only enrich if there is a parent scope above (i.e., current_trace_ is not empty)
+    if (!TraceContext::get_current_trace().empty()) {
+      TraceContext::enrich_exception(ex);
+    }
+    printf("TracedException: %s\n", ex.what());
+    throw;  // program will terminate here
   }
 }
 
 }  // namespace trace
 }  // namespace tunit
 
-// Define the thread-local storage here to avoid linker issues
-thread_local std::vector<std::string> tunit::trace::TraceContext::current_trace_;

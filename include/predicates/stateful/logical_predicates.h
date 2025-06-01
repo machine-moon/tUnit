@@ -1,5 +1,5 @@
 // NOTE: These logical combinators are included because they can be useful in generic code.
-//  However, when using predicate functors, it often makes sense to use the built-in operators (||, &&, !) directly for better readability.
+// However, when using predicate functors, it often makes sense to use the built-in operators (||, &&, !) directly for better readability.
 #pragma once
 
 #include <cstddef>

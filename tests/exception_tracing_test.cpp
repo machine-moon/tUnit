@@ -136,7 +136,7 @@ int main() {
   }
 
 // Test 6: Production vs Debug mode behavior
-#if TUNIT_PRODUCTION_MODE
+#if TUNIT_MODE
   suite.test("Running in production mode", true);
   suite.test("Tracing should be minimal in production", true);
 #else
@@ -150,7 +150,6 @@ int main() {
       TraceScope outer_scope("manual_test_scope");
       {
         TraceScope inner_scope("manual_inner_scope");
-        // This should work without throwing
         auto even_pred = pred::is_even{};
         bool even_result = even_pred(4);
         suite.test("Manual trace scopes work with predicates", even_result);
@@ -173,7 +172,7 @@ int main() {
     bool has_original_message = message.find("Value must be non-negative") != std::string::npos;
     suite.test("Original exception message preserved in formatting", has_original_message);
 
-#if !TUNIT_PRODUCTION_MODE
+#if !TUNIT_MODE
     bool has_trace_section = message.find("Trace") != std::string::npos;
     suite.test("Exception message includes trace section in debug", has_trace_section);
 #endif

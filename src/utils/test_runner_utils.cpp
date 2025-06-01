@@ -18,7 +18,7 @@ std::vector<std::string> TestDiscovery::discover_test_executables(const std::str
       if (entry.is_regular_file()) {
         std::string filename = entry.path().filename().string();
 
-        if (filename == "TestRunner" || filename.find("cmake") != std::string::npos || filename.find("Makefile") != std::string::npos || filename.find(".") != std::string::npos) {
+        if (filename == "TestRunner" || filename.find("cmake") != std::string::npos || filename.find("Makefile") != std::string::npos || filename.find('.') != std::string::npos) {
           continue;
         }
 
@@ -35,14 +35,18 @@ std::vector<std::string> TestDiscovery::discover_test_executables(const std::str
 }
 
 std::string TestDiscovery::find_build_directory() {
-  std::string build_dir = "../build";
-  if (!fs::exists(build_dir)) {
-    build_dir = "./build";
-    if (!fs::exists(build_dir)) {
-      build_dir = ".";
-    }
+  // Check for CMake build directory
+  std::string build_dir = "./build";
+  if (fs::exists(build_dir)) {
+    return build_dir;
   }
-  return build_dir;
+
+  build_dir = "../build";
+  if (fs::exists(build_dir)) {
+    return build_dir;
+  }
+
+  return ".";
 }
 
 TestResult TestExecutor::run_test_executable(const std::string& executable_path) {
@@ -52,16 +56,16 @@ TestResult TestExecutor::run_test_executable(const std::string& executable_path)
   std::string command = executable_path + " 2>&1";
   FILE* pipe = popen(command.c_str(), "r");
 
-  if (!pipe) {
+  if (pipe == nullptr) {
     result.executable_failed = true;
     result.output = "Failed to execute " + result.name;
     return result;
   }
 
-  char buffer[128];
+  std::array<char, 128> buffer{};
   std::ostringstream output_stream;
-  while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
-    std::string line(buffer);
+  while (fgets(buffer.data(), buffer.size(), pipe) != nullptr) {
+    std::string line(buffer.data());
     output_stream << line;
     std::cout << line;
   }
@@ -117,14 +121,19 @@ void TestExecutor::extract_summary_counts(TestResult& result, const std::string&
   size_t passed_pos = line.find("Passed:");
   if (passed_pos != std::string::npos) {
     size_t start = passed_pos + 7;
-    size_t comma = line.find(",", start);
+    size_t comma = line.find(',', start);
     if (comma != std::string::npos) {
       std::string passed_str = line.substr(start, comma - start);
       passed_str.erase(0, passed_str.find_first_not_of(" \t"));
       passed_str.erase(passed_str.find_last_not_of(" \t") + 1);
+
       try {
-        result.passed_tests = std::stoi(passed_str);
-      } catch (...) {
+        if (!passed_str.empty()) {
+          result.passed_tests = std::stoi(passed_str);
+        }
+      } catch (const std::exception& ex) {
+        std::cerr << "Error parsing passed_tests from '" << passed_str << "': " << ex.what() << "\n";
+        // Don't throw - just continue
       }
     }
   }
@@ -135,9 +144,14 @@ void TestExecutor::extract_summary_counts(TestResult& result, const std::string&
     std::string failed_str = line.substr(start);
     failed_str.erase(0, failed_str.find_first_not_of(" \t"));
     failed_str.erase(failed_str.find_last_not_of(" \t") + 1);
+
     try {
-      result.failed_tests = std::stoi(failed_str);
-    } catch (...) {
+      if (!failed_str.empty()) {
+        result.failed_tests = std::stoi(failed_str);
+      }
+    } catch (const std::exception& ex) {
+      std::cerr << "Error parsing failed_tests from '" << failed_str << "': " << ex.what() << "\n";
+      // Don't throw - just continue
     }
   }
 }
@@ -226,7 +240,15 @@ void TestReporter::print_test_result_summary(const TestResult& result) {
 
 double TestReporter::calculate_success_rate(int total_passed, int total_tests) { return total_tests > 0 ? (100.0 * total_passed / total_tests) : 0.0; }
 
-std::string TestReporter::get_success_rate_color(double success_rate) { return success_rate >= 90.0 ? Colors::GREEN : success_rate >= 70.0 ? Colors::YELLOW : Colors::RED; }
+std::string TestReporter::get_success_rate_color(double success_rate) {
+  if (success_rate >= 90.0) {
+    return Colors::GREEN;
+  }
+  if (success_rate >= 70.0) {
+    return Colors::YELLOW;
+  }
+  return Colors::RED;
+}
 
 int TestReporter::run(std::string_view title) {
   // Print header
@@ -237,7 +259,7 @@ int TestReporter::run(std::string_view title) {
   std::vector<std::string> test_executables = TestDiscovery::discover_test_executables(build_dir);
 
   if (test_executables.empty()) {
-    std::cout << "No test executables found in " << build_dir << std::endl;
+    std::cout << "No test executables found in " << build_dir << '\n';
     return 1;
   }
 

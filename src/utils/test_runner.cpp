@@ -3,7 +3,8 @@
 namespace tunit {
 
 bool Colors::colors_enabled() {
-  static bool enabled = (std::getenv("TERM") != nullptr && std::string(std::getenv("TERM") ? std::getenv("TERM") : "") != "dumb");
+  const char* term_env = std::getenv("TERM");
+  static bool enabled = (term_env != nullptr && std::string(term_env) != "dumb");
   return enabled;
 }
 
@@ -24,7 +25,7 @@ std::vector<std::string>& TestRunner::get_failed_tests() {
   return failed_tests;
 }
 
-TestRunner::TestRunner(const std::string& suite_name) : suite_name_(suite_name), suite_passes_(0), suite_fails_(0) {}
+TestRunner::TestRunner(std::string suite_name) : suite_name_(std::move(suite_name)), suite_passes_(0), suite_fails_(0) {}
 
 void TestRunner::record_result(const std::string& test_name, bool passed) {
   if (passed) {
@@ -88,7 +89,14 @@ void TestRunner::global_summary() {
   double pass_rate = get_total_passes() + get_total_fails() > 0 ? (static_cast<double>(get_total_passes()) / (get_total_passes() + get_total_fails())) * 100.0 : 0.0;
 
   std::string pass_rate_str = std::to_string(pass_rate).substr(0, std::to_string(pass_rate).find('.') + 3) + "%";
-  std::string pass_rate_color = pass_rate >= 90.0 ? Colors::GREEN : pass_rate >= 70.0 ? Colors::YELLOW : Colors::RED;
+  std::string pass_rate_color;
+  if (pass_rate >= 90.0) {
+    pass_rate_color = Colors::GREEN;
+  } else if (pass_rate >= 70.0) {
+    pass_rate_color = Colors::YELLOW;
+  } else {
+    pass_rate_color = Colors::RED;
+  }
 
   std::cout << Colors::colorize("Pass Rate: ", Colors::WHITE) << Colors::colorize(pass_rate_str, pass_rate_color + Colors::BOLD) << "\n";
   std::cout << Colors::colorize(separator, Colors::BLUE) << "\n";
