@@ -1,4 +1,4 @@
-.PHONY: build clean = lint tidy all check
+.PHONY: all build clean test lint tidy check
 
 BUILD_DIR := build
 
@@ -16,6 +16,9 @@ build:
 
 clean:
 	rm -rf $(BUILD_DIR)
+
+test:
+	ctest --test-dir $(BUILD_DIR)
 
 lint:
 	clang-format -i $(ALL_FILES)

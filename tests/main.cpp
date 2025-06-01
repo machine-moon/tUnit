@@ -1,3 +1,7 @@
-#include "../include/tunit.h"
+#include "../include/utils/test_runner_utils.h"
+#include "../include/utils/colors.h"
 
-int main() { return tunit::TestReporter::run("TUNIT COMPREHENSIVE TEST SUITE"); }
+int main() {
+  // Test the enhanced test runner with JUnit XML generation
+  return tunit::TestReporter::run("TUnit Enhanced Test Suite", true, "test_results.xml");
+}

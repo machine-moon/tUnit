@@ -49,6 +49,8 @@ set(TUNIT_LIB_SOURCES
     src/utils/test_runner.cpp
     src/utils/test_runner_utils.cpp
     src/utils/trace_support.cpp
+    src/utils/colors.cpp
+    src/utils/junit_xml.cpp
 )
 
 # Static Library Target
