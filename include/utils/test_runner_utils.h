@@ -2,6 +2,7 @@
 
 #include <chrono>
 #include <filesystem>
+#include <functional>
 #include <sstream>
 #include <string>
 #include <string_view>
@@ -24,6 +25,12 @@ struct TestResult {
   std::vector<std::string> test_names;
   std::vector<bool> test_results;
 };
+
+// XML parsing functions
+void parse_xml_results(TestResult& result, const std::string& xml_path);
+void parse_junit_xml(TestResult& result, const std::string& xml_content);
+void extract_attribute(const std::string& tag, const std::string& attr_name, std::function<void(const std::string&)> callback);
+void parse_test_cases(TestResult& result, const std::string& xml_content);
 
 class TestDiscovery {
  public:

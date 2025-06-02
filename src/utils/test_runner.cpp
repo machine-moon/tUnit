@@ -1,8 +1,12 @@
 #include "../../include/utils/test_runner.h"
 
 #include "../../include/utils/colors.h"
+#include "../../include/utils/junit_xml.h"
 
 namespace tunit {
+
+bool TestRunner::xml_output_enabled_ = false;
+std::string TestRunner::xml_output_path_;
 
 // Static member functions for global counters
 int& TestRunner::get_total_passes() {
@@ -38,7 +42,7 @@ void TestRunner::record_result(const std::string& test_name, bool passed) {
 }
 
 TestRunner& TestRunner::get_suite(const std::string& suite_name) {
-  static std::vector<std::unique_ptr<TestRunner>> suites;
+  auto& suites = get_all_suites();
 
   // Find existing suite
   for (auto& suite : suites) {
@@ -113,5 +117,35 @@ void TestRunner::reset_global_counters() {
 int TestRunner::get_total_passes_count() { return get_total_passes(); }
 
 int TestRunner::get_total_fails_count() { return get_total_fails(); }
+
+void TestRunner::generate_junit_xml(const std::string& output_file) {
+  if (!xml_output_enabled_) return;
+
+  // Use configured path if available, otherwise use the provided output_file
+  std::string actual_output_file = xml_output_path_.empty() ? output_file : xml_output_path_;
+
+  std::vector<JUnitTestSuite> junit_suites;
+
+  // Get all test suites data
+  static std::vector<std::unique_ptr<TestRunner>>& suites = get_all_suites();
+
+  for (const auto& suite : suites) {
+    JUnitTestSuite junit_suite;
+    junit_suite.name = suite->suite_name_;
+    junit_suite.tests = suite->suite_passes_ + suite->suite_fails_;
+    junit_suite.failures = suite->suite_fails_;
+    junit_suite.errors = 0;
+    junit_suite.time = 0.0;  // Could be enhanced to track actual timing
+
+    junit_suites.push_back(junit_suite);
+  }
+
+  JUnitXmlWriter::write_xml(junit_suites, actual_output_file);
+}
+
+std::vector<std::unique_ptr<TestRunner>>& TestRunner::get_all_suites() {
+  static std::vector<std::unique_ptr<TestRunner>> suites;
+  return suites;
+}
 
 }  // namespace tunit

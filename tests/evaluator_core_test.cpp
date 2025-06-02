@@ -4,7 +4,7 @@
 
 namespace pred = tunit::predicates;
 
-int main() {
+TUNIT_MAIN() {
   auto& suite = tunit::TestRunner::get_suite("Evaluator Core");
   suite.suite_header();
 
@@ -58,5 +58,4 @@ int main() {
   suite.test("Evaluator(20, 10, is_less) should fail", fail_eval(), false);
 
   suite.suite_summary();
-  return 0;
 }

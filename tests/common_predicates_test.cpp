@@ -5,7 +5,7 @@
 
 namespace pred = tunit::predicates;
 
-int main() {
+TUNIT_MAIN() {
   auto& suite = tunit::TestRunner::get_suite("Common Predicates");
   suite.suite_header();
 
@@ -56,5 +56,4 @@ int main() {
   suite.test("-1 is_not_positive", pred::is_positive{}(-1), false);
 
   suite.suite_summary();
-  return 0;
 }

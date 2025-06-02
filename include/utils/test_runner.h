@@ -36,10 +36,20 @@ class TestRunner {
   void suite_summary() const;
   static void global_summary();
 
+  // JUnit XML generation
+  static void generate_junit_xml(const std::string& output_file = "test_results.xml");
+  static void set_xml_output_enabled(bool enabled) { xml_output_enabled_ = enabled; }
+  static void set_xml_output_path(const std::string& path) { xml_output_path_ = path; }
+
   static bool all_tests_passed();
   static void reset_global_counters();
   static int get_total_passes_count();
   static int get_total_fails_count();
+
+ private:
+  static bool xml_output_enabled_;
+  static std::string xml_output_path_;
+  static std::vector<std::unique_ptr<TestRunner>>& get_all_suites();
 };
 
 // Template implementation

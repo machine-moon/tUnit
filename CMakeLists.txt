@@ -51,6 +51,7 @@ set(TUNIT_LIB_SOURCES
     src/utils/trace_support.cpp
     src/utils/colors.cpp
     src/utils/junit_xml.cpp
+    src/utils/xml_parser.cpp
 )
 
 # Static Library Target

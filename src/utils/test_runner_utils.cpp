@@ -62,7 +62,7 @@ bool TestDiscovery::is_test_executable(const std::string& filename) {
     }
   }
 
-  // Enhanced test detection patterns
+  // Test detection patterns
   const std::vector<std::string> test_patterns = {"Test", "test", "_test", "Tests", "tests", "_tests"};
 
   for (const auto& pattern : test_patterns) {
@@ -89,9 +89,14 @@ TestResult TestExecutor::run_test_executable(const std::string& executable_path)
   result.name = fs::path(executable_path).filename().string();
   result.executable_path = executable_path;
 
+  // Generate unique XML filename for this test run
+  std::string xml_filename = result.name + "_result.xml";
+  std::string xml_path = fs::path(executable_path).parent_path() / xml_filename;
+
   auto start_time = std::chrono::high_resolution_clock::now();
 
-  std::string command = executable_path + " 2>&1";
+  // Run executable with XML output enabled
+  std::string command = executable_path + " --xml-output=" + xml_path + " 2>&1";
   FILE* pipe = popen(command.c_str(), "r");
 
   if (pipe == nullptr) {
@@ -118,7 +123,15 @@ TestResult TestExecutor::run_test_executable(const std::string& executable_path)
     result.executable_failed = true;
   }
 
-  parse_test_output(result, result.output);
+  // Try to read XML results, fallback to stdout parsing if XML not available
+  if (fs::exists(xml_path)) {
+    parse_xml_results(result, xml_path);
+    // Clean up XML file after reading
+    std::filesystem::remove(xml_path);
+  } else {
+    // Fallback to stdout parsing for backward compatibility
+    parse_test_output(result, result.output);
+  }
   return result;
 }
 
