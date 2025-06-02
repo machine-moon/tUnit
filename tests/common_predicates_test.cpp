@@ -1,13 +1,16 @@
 #include <string>
 #include <string_view>
 
-#include "tunit.h"
+#include "tsuite.h"
 
 namespace {
 namespace pred = tunit::predicates;
+auto &suite = tunit::Runner::get_suite("Common Predicates");
 
 void test_basic_comparisons() {
-  auto &suite = tunit::Runner::get_suite("Common Predicates");
+  auto &mytest = suite.get_test("Basic Comparisons");
+
+  mytest.assert("5 is_equal 5", 5, pred::is_equal{}, 5);
 
   suite.test("5 is_equal 5", 5, pred::is_equal{}, 5);
   suite.test("10 is_greater 5", 10, pred::is_greater{}, 5);

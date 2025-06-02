@@ -5,7 +5,7 @@
 #include <type_traits>
 #include <vector>
 
-#include "include/tunit.h"
+#include "include/tsuite.h"
 
 // test 1
 template <typename T>

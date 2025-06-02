@@ -1,7 +1,7 @@
 #include <stdexcept>
 #include <string>
 
-#include "tunit.h"
+#include "tsuite.h"
 
 namespace {
 namespace pred = tunit::predicates;

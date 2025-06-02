@@ -1,4 +1,4 @@
-#include "tunit.h"
+#include "tsuite.h"
 
 int main() {
     // Run all test suites

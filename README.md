@@ -58,7 +58,7 @@ TUNIT_SCOPED_TRACE("Testing complex function");
 ## Quick Start
 
 ```cpp
-#include "include/tunit.h"
+#include "include/tsuite.h"
 namespace pred = tunit::predicates;
 
 int main() {
