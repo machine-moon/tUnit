@@ -8,15 +8,14 @@ ALL_FILES := $(SRCS) $(HDRS) main.cpp
 
 all: build
 
-build:
-	@rm -rf $(BUILD_DIR)
+build: clean
 	@mkdir $(BUILD_DIR)
 	@cmake -B $(BUILD_DIR) -G Ninja -DCMAKE_C_COMPILER=cc
 	@cmake --build $(BUILD_DIR)
 
 clean:
 	@rm -rf $(BUILD_DIR)
-
+	@clear
 test:
 	@ctest --test-dir $(BUILD_DIR)
 
