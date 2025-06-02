@@ -8,8 +8,7 @@
 namespace pred = tunit::predicates;
 
 int main() {
-  auto& suite = tunit::TestRunner::get_suite("Container Predicates");
-  suite.suite_header();
+  auto& suite = tunit::Runner::get_suite("Container Predicates");
 
   // Test data
   std::vector<int> numbers = {1, 2, 3, 4, 5};
@@ -102,6 +101,5 @@ int main() {
   suite.test("single_element is_unique", [&]() { return pred::is_unique{}(single_element); }());
   suite.test("single_element has_size 1", [&]() { return pred::has_size{}(single_element, 1); }());
 
-  suite.suite_summary();
   return 0;
 }

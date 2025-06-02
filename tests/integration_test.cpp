@@ -7,8 +7,7 @@
 namespace pred = tunit::predicates;
 
 int main() {
-  auto& suite = tunit::TestRunner::get_suite("Integration Tests");
-  suite.suite_header();
+  auto& suite = tunit::Runner::get_suite("Integration Tests");
 
   // Test data
   std::vector<int> numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
@@ -113,6 +112,5 @@ int main() {
 
   suite.test("scrambled maintains sorted equality with numbers", maintains_property_result);
 
-  suite.suite_summary();
   return 0;
 }

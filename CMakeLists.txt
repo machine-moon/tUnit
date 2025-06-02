@@ -46,8 +46,7 @@ endif()
 
 # Library Sources
 set(TUNIT_LIB_SOURCES
-    src/utils/test_runner.cpp
-    src/utils/test_runner_utils.cpp
+    src/utils/runner.cpp
     src/utils/trace_support.cpp
 )
 
@@ -101,10 +100,6 @@ target_link_libraries(SyntaxDemoTest PRIVATE tunit)
 
 add_executable(ExceptionTracingTest tests/exception_tracing_test.cpp)
 target_link_libraries(ExceptionTracingTest PRIVATE tunit)
-
-# Main test runner
-add_executable(TestRunner tests/main.cpp)
-target_link_libraries(TestRunner PRIVATE tunit)
 
 # Register tests with CTest
 add_test(NAME EvaluatorCoreTests COMMAND EvaluatorCoreTest)

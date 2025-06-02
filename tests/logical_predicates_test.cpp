@@ -3,8 +3,7 @@
 namespace pred = tunit::predicates;
 
 int main() {
-  auto& suite = tunit::TestRunner::get_suite("Logical Predicates");
-  suite.suite_header();
+  auto& suite = tunit::Runner::get_suite("Logical Predicates");
 
   // Test and_ predicate combinator
   auto and_pred = pred::and_{pred::is_positive{}, pred::is_even{}};
@@ -70,6 +69,5 @@ int main() {
   suite.test("-4 satisfies triple or", triple_or(-4));
   suite.test("-3 fails triple or", triple_or(-3), false);
 
-  suite.suite_summary();
   return 0;
 }

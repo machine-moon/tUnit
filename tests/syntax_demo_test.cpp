@@ -6,8 +6,7 @@
 namespace pred = tunit::predicates;
 
 int main() {
-  auto& suite = tunit::TestRunner::get_suite("Syntax Demo");
-  suite.suite_header();
+  auto& suite = tunit::Runner::get_suite("Syntax Demo");
 
   // ********************** val1 is_predicate val2 Syntax Demo **********************
 
@@ -81,6 +80,5 @@ int main() {
   std::string_view sv = "hello";
   suite.test("string_view contains_substring ell", sv, pred::contains_substring{}, std::string("ell"));
 
-  suite.suite_summary();
   return 0;
 }

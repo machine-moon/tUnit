@@ -43,8 +43,7 @@ bool complex_logical_predicate(int value) {
 }
 
 int main() {
-  auto& suite = tunit::TestRunner::get_suite("Exception Tracing");
-  suite.suite_header();
+  auto& suite = tunit::Runner::get_suite("Exception Tracing");
 
   // Test 1: Basic exception tracing functionality
   try {
@@ -180,6 +179,5 @@ int main() {
     suite.test("Exception formatting test failed", false);
   }
 
-  suite.suite_summary();
   return 0;
 }

@@ -6,8 +6,7 @@
 namespace pred = tunit::predicates;
 
 int main() {
-  auto& suite = tunit::TestRunner::get_suite("Common Predicates");
-  suite.suite_header();
+  auto& suite = tunit::Runner::get_suite("Common Predicates");
 
   // Basic comparisons
   suite.test("5 is_equal 5", 5, pred::is_equal{}, 5);
@@ -55,6 +54,5 @@ int main() {
   suite.test("4 is_not_odd", pred::is_odd{}(4), false);
   suite.test("-1 is_not_positive", pred::is_positive{}(-1), false);
 
-  suite.suite_summary();
   return 0;
 }

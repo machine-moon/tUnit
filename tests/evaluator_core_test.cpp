@@ -5,8 +5,7 @@
 namespace pred = tunit::predicates;
 
 int main() {
-  auto& suite = tunit::TestRunner::get_suite("Evaluator Core");
-  suite.suite_header();
+  auto& suite = tunit::Runner::get_suite("Evaluator Core");
 
   // Test Evaluator constructor and basic operation
   tunit::Evaluator eval1(10, 20, pred::is_less{});
@@ -57,6 +56,5 @@ int main() {
   tunit::Evaluator fail_eval(20, 10, pred::is_less{});
   suite.test("Evaluator(20, 10, is_less) should fail", fail_eval(), false);
 
-  suite.suite_summary();
   return 0;
 }

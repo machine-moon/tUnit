@@ -5,8 +5,7 @@
 namespace pred = tunit::predicates;
 
 int main() {
-  auto &suite = tunit::TestRunner::get_suite("Complex Predicates");
-  suite.suite_header();
+  auto &suite = tunit::Runner::get_suite("Complex Predicates");
 
   // Test all_of predicate
   auto all_pred = pred::all_of{pred::is_positive{}, pred::is_even{}};
@@ -53,6 +52,5 @@ int main() {
   suite.test("-3 satisfies at_most_1_of(positive, even)", at_most_pred(-3));
   suite.test("4 fails at_most_1_of(positive, even)", at_most_pred(4), false);
 
-  suite.suite_summary();
   return 0;
 }

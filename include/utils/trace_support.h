@@ -111,4 +111,3 @@ template <typename... Args>
 
 }  // namespace trace
 }  // namespace tunit
-
