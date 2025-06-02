@@ -2,27 +2,37 @@
 #include <string>
 #include <vector>
 
-#include "../include/tunit.h"
+#include "tunit.h"
 
+namespace {
 namespace pred = tunit::predicates;
 
-int main() {
-  auto& suite = tunit::Runner::get_suite("Integration Tests");
+void test_complex_container_logic() {
+  auto &suite = tunit::Runner::get_suite("Integration Tests");
 
   // Test data
   std::vector<int> numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-  std::vector<std::string> words = {"hello", "world", "test", "integration"};
 
   // Combining logical, complex, and container predicates
-  bool not_empty_and_min_size = pred::is_not_empty{}(numbers) && pred::has_min_size{}(numbers, 5);
-  bool all_positive = pred::all_elements_satisfy{}(numbers, pred::is_positive{});
+  bool not_empty_and_min_size =
+      pred::is_not_empty{}(numbers) && pred::has_min_size{}(numbers, 5);
+  bool all_positive =
+      pred::all_elements_satisfy{}(numbers, pred::is_positive{});
   bool contains_zero = pred::contains_element{}(numbers, 0);
   bool all_positive_or_contains_zero = all_positive || contains_zero;
-  bool complex_container_result = not_empty_and_min_size && all_positive_or_contains_zero;
+  bool complex_container_result =
+      not_empty_and_min_size && all_positive_or_contains_zero;
 
-  suite.test("numbers satisfies complex container logic", complex_container_result);
+  suite.test("numbers satisfies complex container logic",
+             complex_container_result);
+}
 
-  // ombining numeric predicates with container operations
+void test_numeric_predicates_with_containers() {
+  auto &suite = tunit::Runner::get_suite("Integration Tests");
+
+  std::vector<int> numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+  // Combining numeric predicates with container operations
   bool has_even_positive = false;
   for (int x : numbers) {
     if (pred::is_positive{}(x) && pred::is_even{}(x)) {
@@ -30,25 +40,47 @@ int main() {
       break;
     }
   }
-  suite.test("numbers has elements satisfying even_and_positive", has_even_positive);
+  suite.test("numbers has elements satisfying even_and_positive",
+             has_even_positive);
+}
+
+void test_string_and_container_integration() {
+  auto &suite = tunit::Runner::get_suite("Integration Tests");
+
+  std::vector<std::string> words = {"hello", "world", "test", "integration"};
 
   // String and container integration
   bool has_long_word = false;
-  for (const std::string& word : words) {
+  for (const std::string &word : words) {
     if (pred::has_min_size{}(word, 5)) {
       has_long_word = true;
       break;
     }
   }
   suite.test("words contains long word", has_long_word);
+}
+
+void test_conditional_logic_with_containers() {
+  auto &suite = tunit::Runner::get_suite("Integration Tests");
+
+  std::vector<int> numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+  std::vector<int> empty_vec = {};
 
   // Conditional logic with containers
-  std::vector<int> empty_vec = {};
-  bool conditional_numbers = pred::is_empty{}(numbers) ? true : pred::is_sorted{}(numbers);
-  bool conditional_empty = pred::is_empty{}(empty_vec) ? true : pred::is_sorted{}(empty_vec);
+  bool conditional_numbers =
+      pred::is_empty{}(numbers) ? true : pred::is_sorted{}(numbers);
+  bool conditional_empty =
+      pred::is_empty{}(empty_vec) ? true : pred::is_sorted{}(empty_vec);
 
-  suite.test("numbers satisfies conditional (empty->valid | non-empty->sorted)", conditional_numbers);
+  suite.test("numbers satisfies conditional (empty->valid | non-empty->sorted)",
+             conditional_numbers);
   suite.test("empty_vec satisfies conditional", conditional_empty);
+}
+
+void test_range_predicates_with_containers() {
+  auto &suite = tunit::Runner::get_suite("Integration Tests");
+
+  std::vector<int> numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
   // Range predicates with container elements
   bool all_in_range = true;
@@ -59,6 +91,12 @@ int main() {
     }
   }
   suite.test("all numbers are in valid range 1-10", all_in_range);
+}
+
+void test_complex_logical_combinations() {
+  auto &suite = tunit::Runner::get_suite("Integration Tests");
+
+  std::vector<int> numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
   // Complex logical combinations
   bool found_complex_pair = false;
@@ -74,19 +112,35 @@ int main() {
       break;
     }
   }
-  suite.test("numbers contain pairs satisfying complex logic", found_complex_pair);
+  suite.test("numbers contain pairs satisfying complex logic",
+             found_complex_pair);
+}
+
+void test_string_predicates_complex_logic() {
+  auto &suite = tunit::Runner::get_suite("Integration Tests");
+
+  std::vector<std::string> words = {"hello", "world", "test", "integration"};
 
   // String predicates with complex logic
   bool all_words_satisfy_analysis = true;
-  for (const std::string& word : words) {
+  for (const std::string &word : words) {
     bool min_size = pred::has_min_size{}(word, 3);
-    bool starts_with_expected = pred::starts_with{}(word, std::string("h")) || pred::starts_with{}(word, std::string("w")) || pred::starts_with{}(word, std::string("t")) || pred::starts_with{}(word, std::string("i"));
+    bool starts_with_expected = pred::starts_with{}(word, std::string("h")) ||
+                                pred::starts_with{}(word, std::string("w")) ||
+                                pred::starts_with{}(word, std::string("t")) ||
+                                pred::starts_with{}(word, std::string("i"));
     if (!(min_size && starts_with_expected)) {
       all_words_satisfy_analysis = false;
       break;
     }
   }
   suite.test("all words satisfy analysis criteria", all_words_satisfy_analysis);
+}
+
+void test_nested_quantification() {
+  auto &suite = tunit::Runner::get_suite("Integration Tests");
+
+  std::vector<int> numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
   // Nested quantification: exactly N elements satisfy complex conditions
   int moderately_sized_count = 0;
@@ -95,11 +149,19 @@ int main() {
       moderately_sized_count++;
     }
   }
-  suite.test("exactly 4 numbers are moderately sized", moderately_sized_count == 4);
+  suite.test("exactly 4 numbers are moderately sized",
+             moderately_sized_count == 4);
+}
+
+void test_permutation_and_property_maintenance() {
+  auto &suite = tunit::Runner::get_suite("Integration Tests");
+
+  std::vector<int> numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+  std::vector<int> scrambled = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
 
   // Permutation testing with complex predicates
-  std::vector<int> scrambled = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
-  suite.test("scrambled is permutation of numbers", numbers, pred::is_permutation_of{}, scrambled);
+  suite.test("scrambled is permutation of numbers", numbers,
+             pred::is_permutation_of{}, scrambled);
 
   // Maintains property test
   bool is_permutation = pred::is_permutation_of{}(numbers, scrambled);
@@ -110,7 +172,24 @@ int main() {
   bool sorted_equal = pred::containers_equal{}(sorted1, sorted2);
   bool maintains_property_result = is_permutation && sorted_equal;
 
-  suite.test("scrambled maintains sorted equality with numbers", maintains_property_result);
-
-  return tunit::Runner::all_tests_passed() ? 0 : 1;
+  suite.test("scrambled maintains sorted equality with numbers",
+             maintains_property_result);
 }
+
+struct TestRunner {
+  TestRunner() {
+    test_complex_container_logic();
+    test_numeric_predicates_with_containers();
+    test_string_and_container_integration();
+    test_conditional_logic_with_containers();
+    test_range_predicates_with_containers();
+    test_complex_logical_combinations();
+    test_string_predicates_complex_logic();
+    test_nested_quantification();
+    test_permutation_and_property_maintenance();
+  }
+};
+
+static TestRunner runner;
+
+} // anonymous namespace

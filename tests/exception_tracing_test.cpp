@@ -1,8 +1,9 @@
 #include <stdexcept>
 #include <string>
 
-#include "../include/tunit.h"
+#include "tunit.h"
 
+namespace {
 namespace pred = tunit::predicates;
 using namespace tunit::trace;
 
@@ -41,7 +42,7 @@ bool complex_logical_predicate(int value) {
   return nested_complex_predicate(value);
 }
 
-int main() {
+void test_basic_exception_tracing() {
   auto &suite = tunit::Runner::get_suite("Exception Tracing");
 
   // Test 1: Basic exception tracing functionality
@@ -59,6 +60,10 @@ int main() {
   } catch (...) {
     suite.test("Unexpected exception type caught", false);
   }
+}
+
+void test_nested_exception_tracing() {
+  auto &suite = tunit::Runner::get_suite("Exception Tracing");
 
   // Test 2: Nested exception tracing
   try {
@@ -84,6 +89,10 @@ int main() {
   } catch (...) {
     suite.test("Unexpected exception type in nested test", false);
   }
+}
+
+void test_deep_nesting_exception_tracing() {
+  auto &suite = tunit::Runner::get_suite("Exception Tracing");
 
   // Test 3: Deep nesting exception tracing
   try {
@@ -108,6 +117,10 @@ int main() {
   } catch (...) {
     suite.test("Unexpected exception type in deep nesting test", false);
   }
+}
+
+void test_normal_predicates_with_tracing() {
+  auto &suite = tunit::Runner::get_suite("Exception Tracing");
 
   // Test 4: Exception tracing with normal predicates (should work without
   // exceptions)
@@ -127,6 +140,10 @@ int main() {
   } catch (...) {
     suite.test("Normal predicates should not throw", false);
   }
+}
+
+void test_evaluator_integration_with_tracing() {
+  auto &suite = tunit::Runner::get_suite("Exception Tracing");
 
   // Test 5: Exception tracing with evaluator integration
   try {
@@ -142,6 +159,10 @@ int main() {
   } catch (...) {
     suite.test("Evaluator integration with tracing failed", false);
   }
+}
+
+void test_production_vs_debug_mode() {
+  auto &suite = tunit::Runner::get_suite("Exception Tracing");
 
 // Test 6: Production vs Debug mode behavior
 #if TUNIT_MODE
@@ -151,6 +172,10 @@ int main() {
   suite.test("Running in debug/development mode", true);
   suite.test("Full tracing available in debug mode", true);
 #endif
+}
+
+void test_manual_trace_scope_usage() {
+  auto &suite = tunit::Runner::get_suite("Exception Tracing");
 
   // Test 7: Manual trace scope usage
   try {
@@ -160,13 +185,18 @@ int main() {
         TUNIT_SCOPED_TRACE("manual_inner_scope");
         auto even_pred = pred::is_even{};
         bool even_result = even_pred(4);
-        suite.test("Macro-based trace scopes work with predicates", even_result);
+        suite.test("Macro-based trace scopes work with predicates",
+                   even_result);
       }
     }
     suite.test("Manual trace scope cleanup successful", true);
   } catch (...) {
     suite.test("Manual trace scope usage failed", false);
   }
+}
+
+void test_exception_message_formatting() {
+  auto &suite = tunit::Runner::get_suite("Exception Tracing");
 
   // Test 8: Exception message formatting
   try {
@@ -190,6 +220,21 @@ int main() {
   } catch (...) {
     suite.test("Exception formatting test failed", false);
   }
-
-  return tunit::Runner::all_tests_passed() ? 0 : 1;
 }
+
+struct TestRunner {
+  TestRunner() {
+    test_basic_exception_tracing();
+    test_nested_exception_tracing();
+    test_deep_nesting_exception_tracing();
+    test_normal_predicates_with_tracing();
+    test_evaluator_integration_with_tracing();
+    test_production_vs_debug_mode();
+    test_manual_trace_scope_usage();
+    test_exception_message_formatting();
+  }
+};
+
+static TestRunner runner;
+
+} // anonymous namespace

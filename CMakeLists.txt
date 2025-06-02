@@ -66,7 +66,8 @@ target_link_libraries(Evaluator PRIVATE tunit)
 enable_testing()
 
 # Test Sources 
-set(TEST_SOURCES
+add_executable(tUnitTests 
+    tests/main.cpp
     tests/common_predicates_test.cpp
     tests/complex_predicates_test.cpp
     tests/container_predicates_test.cpp
@@ -74,41 +75,10 @@ set(TEST_SOURCES
     tests/integration_test.cpp
     tests/logical_predicates_test.cpp
     tests/syntax_demo_test.cpp
+    tests/exception_tracing_test.cpp
 )
-
-# test executables
-add_executable(CommonPredicatesTest tests/common_predicates_test.cpp)
-target_link_libraries(CommonPredicatesTest PRIVATE tunit)
-
-add_executable(ComplexPredicatesTest tests/complex_predicates_test.cpp)
-target_link_libraries(ComplexPredicatesTest PRIVATE tunit)
-
-add_executable(ContainerPredicatesTest tests/container_predicates_test.cpp)
-target_link_libraries(ContainerPredicatesTest PRIVATE tunit)
-
-add_executable(EvaluatorCoreTest tests/evaluator_core_test.cpp)
-target_link_libraries(EvaluatorCoreTest PRIVATE tunit)
-
-add_executable(IntegrationTest tests/integration_test.cpp)
-target_link_libraries(IntegrationTest PRIVATE tunit)
-
-add_executable(LogicalPredicatesTest tests/logical_predicates_test.cpp)
-target_link_libraries(LogicalPredicatesTest PRIVATE tunit)
-
-add_executable(SyntaxDemoTest tests/syntax_demo_test.cpp)
-target_link_libraries(SyntaxDemoTest PRIVATE tunit)
-
-add_executable(ExceptionTracingTest tests/exception_tracing_test.cpp)
-target_link_libraries(ExceptionTracingTest PRIVATE tunit)
+target_link_libraries(tUnitTests PRIVATE tunit)
+target_include_directories(tUnitTests PRIVATE include)
 
 # Register tests with CTest
-add_test(NAME EvaluatorCoreTests COMMAND EvaluatorCoreTest)
-add_test(NAME CommonPredicatesTests COMMAND CommonPredicatesTest)
-add_test(NAME ComplexPredicatesTests COMMAND ComplexPredicatesTest)
-add_test(NAME LogicalPredicatesTests COMMAND LogicalPredicatesTest)
-add_test(NAME ContainerPredicatesTests COMMAND ContainerPredicatesTest)
-add_test(NAME IntegrationTests COMMAND IntegrationTest)
-add_test(NAME SyntaxDemoTests COMMAND SyntaxDemoTest)
-add_test(NAME ExceptionTracingTests COMMAND ExceptionTracingTest)
-
-
+add_test(NAME tUnitTests COMMAND tUnitTests)
