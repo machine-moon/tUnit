@@ -69,5 +69,5 @@ int main() {
   suite.test("-4 satisfies triple or", triple_or(-4));
   suite.test("-3 fails triple or", triple_or(-3), false);
 
-  return 0;
+  return tunit::Runner::all_tests_passed() ? 0 : 1;
 }

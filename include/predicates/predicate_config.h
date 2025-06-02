@@ -3,11 +3,11 @@
 // Predicate Configuration for TUnit
 //
 // Two modes available:
-// - (1): constexpr enabled, tracing disabled - for release builds (saves CI/CD minutes by testing at compile time)
-// - (0): constexpr disabled, tracing enabled - for development and debugging
+// - (1): constexpr enabled, predicate tracing disabled - for release builds (saves CI/CD minutes by testing at compile time)
+// - (0): constexpr disabled, predicate tracing enabled - for development and debugging
 
 #ifndef TUNIT_MODE
-#define TUNIT_MODE 1
+#define TUNIT_MODE 0
 #endif
 
 #if TUNIT_MODE

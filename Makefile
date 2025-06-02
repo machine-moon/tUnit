@@ -9,7 +9,7 @@ ALL_FILES := $(SRCS) $(HDRS) main.cpp
 all: build
 
 build: 
-	@mkdir $(BUILD_DIR)
+	@mkdir -p $(BUILD_DIR)
 	@cmake -B $(BUILD_DIR) -G Ninja -DCMAKE_CXX_COMPILER=g++
 	@cmake --build $(BUILD_DIR)
 

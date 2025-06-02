@@ -52,5 +52,5 @@ int main() {
   suite.test("-3 satisfies at_most_1_of(positive, even)", at_most_pred(-3));
   suite.test("4 fails at_most_1_of(positive, even)", at_most_pred(4), false);
 
-  return 0;
+    return tunit::Runner::all_tests_passed() ? 0 : 1;
 }

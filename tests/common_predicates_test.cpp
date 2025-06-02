@@ -54,5 +54,5 @@ int main() {
   suite.test("4 is_not_odd", pred::is_odd{}(4), false);
   suite.test("-1 is_not_positive", pred::is_positive{}(-1), false);
 
-  return 0;
+  return tunit::Runner::all_tests_passed() ? 0 : 1;
 }

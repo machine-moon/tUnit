@@ -112,5 +112,5 @@ int main() {
 
   suite.test("scrambled maintains sorted equality with numbers", maintains_property_result);
 
-  return 0;
+  return tunit::Runner::all_tests_passed() ? 0 : 1;
 }

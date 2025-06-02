@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cassert>
 #include <cstdlib>
 #include <iostream>
 #include <memory>
@@ -7,7 +8,6 @@
 #include <vector>
 
 #include "../evaluator.h"
-#include "release_asserts.h"
 
 namespace tunit {
 

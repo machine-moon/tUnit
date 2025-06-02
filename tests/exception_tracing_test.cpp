@@ -2,14 +2,13 @@
 #include <string>
 
 #include "../include/tunit.h"
-#include "../include/utils/trace_support.h"
 
 namespace pred = tunit::predicates;
 using namespace tunit::trace;
 
 // Helper function to simulate a predicate that throws an exception
 bool throwing_predicate(int value) {
-  TraceScope scope("throwing_predicate");
+  TUNIT_TRACE_FUNCTION();
   if (value < 0) {
     throw_traced("Value must be non-negative, got: " + std::to_string(value));
   }
@@ -18,11 +17,11 @@ bool throwing_predicate(int value) {
 
 // Helper function to simulate nested predicate calls
 bool nested_complex_predicate(int value) {
-  TraceScope scope("nested_complex_predicate");
+  TUNIT_TRACE_FUNCTION();
 
   // Simulate some validation logic
   if (value == 42) {
-    TraceScope inner_scope("special_case_handler");
+    TUNIT_SCOPED_TRACE("special_case_handler");
     throw_traced("Special case value 42 is not allowed");
   }
 
@@ -32,10 +31,10 @@ bool nested_complex_predicate(int value) {
 
 // Predicate that uses logical composition with potential exceptions
 bool complex_logical_predicate(int value) {
-  TraceScope scope("complex_logical_predicate");
+  TUNIT_TRACE_FUNCTION();
 
   if (value == 999) {
-    TraceScope error_scope("overflow_check");
+    TUNIT_SCOPED_TRACE("overflow_check");
     throw_traced("Value 999 causes overflow in calculation");
   }
 
@@ -72,7 +71,7 @@ int main() {
     bool contains_expected_contexts = false;
     std::string full_trace;
     for (const auto& entry : trace_stack) {
-      full_trace += entry + " ";
+      full_trace += entry.to_string() + " ";
     }
     contains_expected_contexts = full_trace.find("nested_complex_predicate") != std::string::npos && full_trace.find("special_case_handler") != std::string::npos;
     suite.test("Trace contains expected predicate contexts", contains_expected_contexts);
@@ -92,7 +91,7 @@ int main() {
 
     std::string trace_str;
     for (const auto& entry : trace_stack) {
-      trace_str += entry + " -> ";
+      trace_str += entry.to_string() + " -> ";
     }
 
     bool contains_all_levels = trace_str.find("complex_logical_predicate") != std::string::npos && trace_str.find("overflow_check") != std::string::npos;
@@ -179,5 +178,5 @@ int main() {
     suite.test("Exception formatting test failed", false);
   }
 
-  return 0;
+  return tunit::Runner::all_tests_passed() ? 0 : 1;
 }

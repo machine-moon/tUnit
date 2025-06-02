@@ -80,5 +80,5 @@ int main() {
   std::string_view sv = "hello";
   suite.test("string_view contains_substring ell", sv, pred::contains_substring{}, std::string("ell"));
 
-  return 0;
+  return tunit::Runner::all_tests_passed() ? 0 : 1;
 }

@@ -56,5 +56,5 @@ int main() {
   tunit::Evaluator fail_eval(20, 10, pred::is_less{});
   suite.test("Evaluator(20, 10, is_less) should fail", fail_eval(), false);
 
-  return 0;
+  return tunit::Runner::all_tests_passed() ? 0 : 1;
 }

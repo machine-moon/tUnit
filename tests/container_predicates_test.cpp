@@ -101,5 +101,5 @@ int main() {
   suite.test("single_element is_unique", [&]() { return pred::is_unique{}(single_element); }());
   suite.test("single_element has_size 1", [&]() { return pred::has_size{}(single_element, 1); }());
 
-  return 0;
+  return tunit::Runner::all_tests_passed() ? 0 : 1;
 }
