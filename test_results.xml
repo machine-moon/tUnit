@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="TUnit Test Results" tests="209" failures="0" errors="0" time="0.035">
-  <testsuite name="CommonPredicatesTest" tests="32" failures="0" errors="0" time="0.003">
+<testsuites name="TUnit Test Results" tests="209" failures="0" errors="0" time="0.018">
+  <testsuite name="CommonPredicatesTest" tests="32" failures="0" errors="0" time="0.000">
   </testsuite>
-  <testsuite name="ComplexPredicatesTest" tests="24" failures="0" errors="0" time="0.005">
+  <testsuite name="ComplexPredicatesTest" tests="24" failures="0" errors="0" time="0.003">
   </testsuite>
-  <testsuite name="ContainerPredicatesTest" tests="39" failures="0" errors="0" time="0.005">
+  <testsuite name="ContainerPredicatesTest" tests="39" failures="0" errors="0" time="0.003">
   </testsuite>
-  <testsuite name="EvaluatorCoreTest" tests="18" failures="0" errors="0" time="0.006">
+  <testsuite name="EvaluatorCoreTest" tests="18" failures="0" errors="0" time="0.000">
   </testsuite>
-  <testsuite name="ExceptionTracingTest" tests="18" failures="0" errors="0" time="0.004">
+  <testsuite name="ExceptionTracingTest" tests="18" failures="0" errors="0" time="0.003">
   </testsuite>
   <testsuite name="IntegrationTest" tests="11" failures="0" errors="0" time="0.003">
   </testsuite>
-  <testsuite name="LogicalPredicatesTest" tests="35" failures="0" errors="0" time="0.005">
+  <testsuite name="LogicalPredicatesTest" tests="35" failures="0" errors="0" time="0.004">
   </testsuite>
-  <testsuite name="SyntaxDemoTest" tests="32" failures="0" errors="0" time="0.004">
+  <testsuite name="SyntaxDemoTest" tests="32" failures="0" errors="0" time="0.003">
   </testsuite>
 </testsuites>

@@ -8,8 +8,8 @@
 #include <string_view>
 #include <vector>
 
-#include "junit_xml.h"
 #include "test_runner.h"
+#include "tunit_xml.h"
 
 namespace tunit {
 
@@ -28,7 +28,7 @@ struct TestResult {
 
 // XML parsing functions
 void parse_xml_results(TestResult& result, const std::string& xml_path);
-void parse_junit_xml(TestResult& result, const std::string& xml_content);
+void parse_tunit_xml(TestResult& result, const std::string& xml_content);
 void extract_attribute(const std::string& tag, const std::string& attr_name, std::function<void(const std::string&)> callback);
 void parse_test_cases(TestResult& result, const std::string& xml_content);
 
@@ -59,7 +59,7 @@ class TestReporter {
   static void print_final_summary(const std::vector<TestResult>& results);
   static void print_stats(const std::vector<TestResult>& results);
   static int calculate_exit_code(const std::vector<TestResult>& results);
-  static void generate_junit_xml(const std::vector<TestResult>& results, const std::string& output_file);
+  static void generate_tunit_xml(const std::vector<TestResult>& results, const std::string& output_file);
 
   // Convenience method to run all tests with a single call
   static int run(std::string_view title, bool generate_xml = false, const std::string& xml_output = "test_results.xml");
@@ -69,7 +69,7 @@ class TestReporter {
   static void print_test_result_summary(const TestResult& result);
   static double calculate_success_rate(int total_passed, int total_tests);
   static std::string get_success_rate_color(double success_rate);
-  static std::vector<JUnitTestSuite> convert_to_junit_format(const std::vector<TestResult>& results);
+  static std::vector<tUnitTestSuite> convert_to_tUnit_format(const std::vector<TestResult>& results);
 };
 
 }  // namespace tunit

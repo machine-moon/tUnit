@@ -1,7 +1,7 @@
-#include "../../include/utils/test_runner.h"
+#include "../../include/test_runner/test_runner.h"
 
-#include "../../include/utils/colors.h"
-#include "../../include/utils/junit_xml.h"
+#include "../../include/test_runner/colors.h"
+#include "../../include/test_runner/tunit_xml.h"
 
 namespace tunit {
 
@@ -118,29 +118,29 @@ int TestRunner::get_total_passes_count() { return get_total_passes(); }
 
 int TestRunner::get_total_fails_count() { return get_total_fails(); }
 
-void TestRunner::generate_junit_xml(const std::string& output_file) {
+void TestRunner::generate_tunit_xml(const std::string& output_file) {
   if (!xml_output_enabled_) return;
 
   // Use configured path if available, otherwise use the provided output_file
   std::string actual_output_file = xml_output_path_.empty() ? output_file : xml_output_path_;
 
-  std::vector<JUnitTestSuite> junit_suites;
+  std::vector<tUnitTestSuite> tUnit_suites;
 
   // Get all test suites data
   static std::vector<std::unique_ptr<TestRunner>>& suites = get_all_suites();
 
   for (const auto& suite : suites) {
-    JUnitTestSuite junit_suite;
-    junit_suite.name = suite->suite_name_;
-    junit_suite.tests = suite->suite_passes_ + suite->suite_fails_;
-    junit_suite.failures = suite->suite_fails_;
-    junit_suite.errors = 0;
-    junit_suite.time = 0.0;  // Could be enhanced to track actual timing
+    tUnitTestSuite tUnit_suite;
+    tUnit_suite.name = suite->suite_name_;
+    tUnit_suite.tests = suite->suite_passes_ + suite->suite_fails_;
+    tUnit_suite.failures = suite->suite_fails_;
+    tUnit_suite.errors = 0;
+    tUnit_suite.time = 0.0;  // Could be enhanced to track actual timing
 
-    junit_suites.push_back(junit_suite);
+    tUnit_suites.push_back(tUnit_suite);
   }
 
-  JUnitXmlWriter::write_xml(junit_suites, actual_output_file);
+  tUnitXmlWriter::write_xml(tUnit_suites, actual_output_file);
 }
 
 std::vector<std::unique_ptr<TestRunner>>& TestRunner::get_all_suites() {

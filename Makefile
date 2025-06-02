@@ -1,4 +1,4 @@
-.PHONY: all build clean test lint tidy check
+.PHONY: all build clean test bin lint tidy check
 
 BUILD_DIR := build
 
@@ -9,21 +9,23 @@ ALL_FILES := $(SRCS) $(HDRS) main.cpp
 all: build
 
 build:
-	rm -rf $(BUILD_DIR)
-	mkdir $(BUILD_DIR)
-	cmake -B $(BUILD_DIR) -G Ninja -DCMAKE_C_COMPILER=cc
-	cmake --build $(BUILD_DIR)
+	@rm -rf $(BUILD_DIR)
+	@mkdir $(BUILD_DIR)
+	@cmake -B $(BUILD_DIR) -G Ninja -DCMAKE_C_COMPILER=cc
+	@cmake --build $(BUILD_DIR)
 
 clean:
-	rm -rf $(BUILD_DIR)
+	@rm -rf $(BUILD_DIR)
 
 test:
-	ctest --test-dir $(BUILD_DIR)
+	@ctest --test-dir $(BUILD_DIR)
 
+bin:
+	@./$(BUILD_DIR)/TestRunner
 lint:
-	clang-format -i $(ALL_FILES)
+	@clang-format -i $(ALL_FILES)
 
 tidy:
-	clang-tidy $(SRCS) -- -Iinclude
+	@clang-tidy $(SRCS) -- -Iinclude
 
 check: lint tidy

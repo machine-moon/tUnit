@@ -1,4 +1,4 @@
-#include "../../include/utils/test_runner_utils.h"
+#include "../../include/test_runner/test_runner_utils.h"
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -19,15 +19,15 @@ void parse_xml_results(TestResult& result, const std::string& xml_path) {
     xml_file.close();
 
     // Parse XML content to extract test results
-    parse_junit_xml(result, xml_content);
+    parse_tunit_xml(result, xml_content);
   } catch (const std::exception& e) {
     std::cerr << "Error parsing XML results: " << e.what() << std::endl;
   }
 }
 
-void parse_junit_xml(TestResult& result, const std::string& xml_content) {
-  // Simple string-based XML parsing for JUnit format
-  
+void parse_tunit_xml(TestResult& result, const std::string& xml_content) {
+  // Simple string-based XML parsing for tUnit format
+
   // Find testsuite element
   size_t testsuite_start = xml_content.find("<testsuite");
   if (testsuite_start == std::string::npos) {

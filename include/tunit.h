@@ -3,8 +3,8 @@
 // Single header
 #include "evaluator.h"
 #include "predicates/all_predicates.h"
-#include "utils/test_runner.h"
-#include "utils/test_runner_utils.h"
+#include "test_runner/test_runner.h"
+#include "test_runner/test_runner_utils.h"
 
 // This header provides all core components of the tunit library:
 // - Core evaluator functionality from evaluator.h
@@ -28,7 +28,7 @@
     run_tests();                                                 \
     tunit::TestRunner::global_summary();                         \
     if (!xml_output_path.empty()) {                              \
-      tunit::TestRunner::generate_junit_xml();                   \
+      tunit::TestRunner::generate_tunit_xml();                   \
     }                                                            \
     return tunit::TestRunner::all_tests_passed() ? 0 : 1;        \
   }                                                              \

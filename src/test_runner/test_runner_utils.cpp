@@ -1,4 +1,5 @@
-#include "../../include/utils/test_runner_utils.h"
+
+#include "../../include/test_runner/test_runner_utils.h"
 
 #include <algorithm>
 #include <array>
@@ -13,7 +14,7 @@
 #include <sstream>
 #include <vector>
 
-#include "../../include/utils/colors.h"
+#include "../../include/test_runner/colors.h"
 
 namespace fs = std::filesystem;
 
@@ -236,7 +237,7 @@ void TestExecutor::extract_summary_counts(TestResult& result, const std::string&
 void TestReporter::print_header(std::string_view title) {
   print_separator();
   std::cout << Colors::colorize("        " + std::string(title), Colors::BLUE + Colors::BOLD) << "\n";
-  std::cout << Colors::colorize("        (Enhanced Auto-discovery with JUnit XML)", Colors::BLUE) << "\n";
+  std::cout << Colors::colorize("        (Enhanced Auto-discovery with tUnit XML)", Colors::BLUE) << "\n";
   print_separator();
   std::cout << "\n";
 }
@@ -316,18 +317,18 @@ void TestReporter::print_stats(const std::vector<TestResult>& results) {
   std::cout << Colors::colorize(std::string(60, '-'), Colors::CYAN) << "\n";
 }
 
-void TestReporter::generate_junit_xml(const std::vector<TestResult>& results, const std::string& output_file) {
-  auto junit_suites = convert_to_junit_format(results);
-  JUnitXmlWriter::write_xml(junit_suites, output_file);
+void TestReporter::generate_tunit_xml(const std::vector<TestResult>& results, const std::string& output_file) {
+  auto tUnit_suites = convert_to_tUnit_format(results);
+  tUnitXmlWriter::write_xml(tUnit_suites, output_file);
 
-  std::cout << Colors::colorize("JUnit XML report generated: ", Colors::BLUE) << Colors::colorize(output_file, Colors::BLUE + Colors::BOLD) << "\n";
+  std::cout << Colors::colorize("tUnit XML report generated: ", Colors::BLUE) << Colors::colorize(output_file, Colors::BLUE + Colors::BOLD) << "\n";
 }
 
-std::vector<JUnitTestSuite> TestReporter::convert_to_junit_format(const std::vector<TestResult>& results) {
-  std::vector<JUnitTestSuite> junit_suites;
+std::vector<tUnitTestSuite> TestReporter::convert_to_tUnit_format(const std::vector<TestResult>& results) {
+  std::vector<tUnitTestSuite> tUnit_suites;
 
   for (const auto& result : results) {
-    JUnitTestSuite suite;
+    tUnitTestSuite suite;
     suite.name = result.name;
     suite.tests = result.total_tests;
     suite.failures = result.failed_tests;
@@ -336,7 +337,7 @@ std::vector<JUnitTestSuite> TestReporter::convert_to_junit_format(const std::vec
 
     // Convert individual test results
     for (size_t i = 0; i < result.test_names.size(); ++i) {
-      JUnitTestCase test_case;
+      tUnitTestCase test_case;
       test_case.name = result.test_names[i];
       test_case.classname = result.name;
       test_case.time = suite.time / suite.tests;  // Approximate time per test
@@ -350,10 +351,10 @@ std::vector<JUnitTestSuite> TestReporter::convert_to_junit_format(const std::vec
       suite.test_cases.push_back(test_case);
     }
 
-    junit_suites.push_back(suite);
+    tUnit_suites.push_back(suite);
   }
 
-  return junit_suites;
+  return tUnit_suites;
 }
 
 int TestReporter::calculate_exit_code(const std::vector<TestResult>& results) {
@@ -407,9 +408,9 @@ int TestReporter::run(std::string_view title, bool generate_xml, const std::stri
   print_final_summary(results);
   print_stats(results);
 
-  // Generate JUnit XML if requested
+  // Generate tUnit XML if requested
   if (generate_xml) {
-    generate_junit_xml(results, xml_output);
+    generate_tunit_xml(results, xml_output);
   }
 
   return calculate_exit_code(results);

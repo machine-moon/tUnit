@@ -46,11 +46,11 @@ endif()
 
 # Library Sources
 set(TUNIT_LIB_SOURCES
-    src/utils/test_runner.cpp
-    src/utils/test_runner_utils.cpp
+    src/test_runner/test_runner.cpp
+    src/test_runner/test_runner_utils.cpp
+    src/test_runner/colors.cpp
+    src/test_runner/tunit_xml.cpp
     src/utils/trace_support.cpp
-    src/utils/colors.cpp
-    src/utils/junit_xml.cpp
     src/utils/xml_parser.cpp
 )
 

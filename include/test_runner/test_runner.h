@@ -7,8 +7,8 @@
 #include <vector>
 
 #include "../evaluator.h"
+#include "../utils/release_asserts.h"
 #include "colors.h"
-#include "release_asserts.h"
 
 namespace tunit {
 
@@ -36,8 +36,8 @@ class TestRunner {
   void suite_summary() const;
   static void global_summary();
 
-  // JUnit XML generation
-  static void generate_junit_xml(const std::string& output_file = "test_results.xml");
+  // tUnit XML generation
+  static void generate_tunit_xml(const std::string& output_file = "test_results.xml");
   static void set_xml_output_enabled(bool enabled) { xml_output_enabled_ = enabled; }
   static void set_xml_output_path(const std::string& path) { xml_output_path_ = path; }
 

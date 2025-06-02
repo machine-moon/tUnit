@@ -1,13 +1,13 @@
-#include "../../include/utils/junit_xml.h"
-
 #include <algorithm>
 #include <fstream>
 #include <iomanip>
 #include <sstream>
 
+#include "../../include/test_runner/tunit_xml.h"
+
 namespace tunit {
 
-void JUnitXmlWriter::write_xml(const std::vector<JUnitTestSuite>& test_suites, const std::string& output_file) {
+void tUnitXmlWriter::write_xml(const std::vector<tUnitTestSuite>& test_suites, const std::string& output_file) {
   std::ofstream file(output_file);
   if (!file.is_open()) {
     throw std::runtime_error("Failed to open file for writing: " + output_file);
@@ -17,7 +17,7 @@ void JUnitXmlWriter::write_xml(const std::vector<JUnitTestSuite>& test_suites, c
   file.close();
 }
 
-std::string JUnitXmlWriter::generate_xml(const std::vector<JUnitTestSuite>& test_suites) {
+std::string tUnitXmlWriter::generate_xml(const std::vector<tUnitTestSuite>& test_suites) {
   std::ostringstream xml;
   
   // XML header
@@ -73,7 +73,7 @@ std::string JUnitXmlWriter::generate_xml(const std::vector<JUnitTestSuite>& test
   return xml.str();
 }
 
-std::string JUnitXmlWriter::escape_xml(const std::string& input) {
+std::string tUnitXmlWriter::escape_xml(const std::string& input) {
   std::string result = input;
   std::replace(result.begin(), result.end(), '&', '&');
   
@@ -112,7 +112,7 @@ std::string JUnitXmlWriter::escape_xml(const std::string& input) {
   return result;
 }
 
-std::string JUnitXmlWriter::format_time(double seconds) {
+std::string tUnitXmlWriter::format_time(double seconds) {
   std::ostringstream ss;
   ss << std::fixed << std::setprecision(3) << seconds;
   return ss.str();
