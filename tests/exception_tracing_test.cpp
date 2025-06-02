@@ -42,17 +42,19 @@ bool complex_logical_predicate(int value) {
 }
 
 int main() {
-  auto& suite = tunit::Runner::get_suite("Exception Tracing");
+  auto &suite = tunit::Runner::get_suite("Exception Tracing");
 
   // Test 1: Basic exception tracing functionality
   try {
     throwing_predicate(-5);
     suite.test("Should not reach here after exception", false);
-  } catch (const TracedException& e) {
+  } catch (const TracedException &e) {
     bool has_trace = !e.get_trace_stack().empty();
     suite.test("Basic exception contains trace information", has_trace);
 
-    bool correct_message = std::string(e.what()).find("Value must be non-negative") != std::string::npos;
+    bool correct_message =
+        std::string(e.what()).find("Value must be non-negative") !=
+        std::string::npos;
     suite.test("Exception message is preserved", correct_message);
   } catch (...) {
     suite.test("Unexpected exception type caught", false);
@@ -62,19 +64,23 @@ int main() {
   try {
     nested_complex_predicate(42);
     suite.test("Should not reach here after nested exception", false);
-  } catch (const TracedException& e) {
+  } catch (const TracedException &e) {
     auto trace_stack = e.get_trace_stack();
 
     bool has_nested_traces = trace_stack.size() >= 2;
-    suite.test("Nested exception has multiple trace entries", has_nested_traces);
+    suite.test("Nested exception has multiple trace entries",
+               has_nested_traces);
 
     bool contains_expected_contexts = false;
     std::string full_trace;
-    for (const auto& entry : trace_stack) {
+    for (const auto &entry : trace_stack) {
       full_trace += entry.to_string() + " ";
     }
-    contains_expected_contexts = full_trace.find("nested_complex_predicate") != std::string::npos && full_trace.find("special_case_handler") != std::string::npos;
-    suite.test("Trace contains expected predicate contexts", contains_expected_contexts);
+    contains_expected_contexts =
+        full_trace.find("nested_complex_predicate") != std::string::npos &&
+        full_trace.find("special_case_handler") != std::string::npos;
+    suite.test("Trace contains expected predicate contexts",
+               contains_expected_contexts);
   } catch (...) {
     suite.test("Unexpected exception type in nested test", false);
   }
@@ -83,24 +89,28 @@ int main() {
   try {
     complex_logical_predicate(999);
     suite.test("Should not reach here after deep nested exception", false);
-  } catch (const TracedException& e) {
+  } catch (const TracedException &e) {
     auto trace_stack = e.get_trace_stack();
 
     bool has_deep_traces = trace_stack.size() >= 3;
-    suite.test("Deep nested exception has multiple trace levels", has_deep_traces);
+    suite.test("Deep nested exception has multiple trace levels",
+               has_deep_traces);
 
     std::string trace_str;
-    for (const auto& entry : trace_stack) {
+    for (const auto &entry : trace_stack) {
       trace_str += entry.to_string() + " -> ";
     }
 
-    bool contains_all_levels = trace_str.find("complex_logical_predicate") != std::string::npos && trace_str.find("overflow_check") != std::string::npos;
+    bool contains_all_levels =
+        trace_str.find("complex_logical_predicate") != std::string::npos &&
+        trace_str.find("overflow_check") != std::string::npos;
     suite.test("Deep trace contains all predicate levels", contains_all_levels);
   } catch (...) {
     suite.test("Unexpected exception type in deep nesting test", false);
   }
 
-  // Test 4: Exception tracing with normal predicates (should work without exceptions)
+  // Test 4: Exception tracing with normal predicates (should work without
+  // exceptions)
   try {
     auto equal_pred = pred::is_equal{};
     bool result = equal_pred(5, 5);
@@ -145,12 +155,12 @@ int main() {
   // Test 7: Manual trace scope usage
   try {
     {
-      TraceScope outer_scope("manual_test_scope");
+      TUNIT_SCOPED_TRACE("manual_test_scope");
       {
-        TraceScope inner_scope("manual_inner_scope");
+        TUNIT_SCOPED_TRACE("manual_inner_scope");
         auto even_pred = pred::is_even{};
         bool even_result = even_pred(4);
-        suite.test("Manual trace scopes work with predicates", even_result);
+        suite.test("Macro-based trace scopes work with predicates", even_result);
       }
     }
     suite.test("Manual trace scope cleanup successful", true);
@@ -161,18 +171,21 @@ int main() {
   // Test 8: Exception message formatting
   try {
     throwing_predicate(-10);
-  } catch (const TracedException& e) {
+  } catch (const TracedException &e) {
     std::string message(e.what());
 
     bool has_error_prefix = message.find("Error:") != std::string::npos;
     suite.test("Exception message has proper formatting", has_error_prefix);
 
-    bool has_original_message = message.find("Value must be non-negative") != std::string::npos;
-    suite.test("Original exception message preserved in formatting", has_original_message);
+    bool has_original_message =
+        message.find("Value must be non-negative") != std::string::npos;
+    suite.test("Original exception message preserved in formatting",
+               has_original_message);
 
 #if !TUNIT_MODE
     bool has_trace_section = message.find("Trace") != std::string::npos;
-    suite.test("Exception message includes trace section in debug", has_trace_section);
+    suite.test("Exception message includes trace section in debug",
+               has_trace_section);
 #endif
   } catch (...) {
     suite.test("Exception formatting test failed", false);
