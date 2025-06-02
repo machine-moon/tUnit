@@ -16,7 +16,7 @@ namespace predicates {
 // ********************** Complex Predicate Compositions **********************
 
 /**
- * @brief Tests if all provided predicates return true
+ * Tests if all provided predicates return true
  */
 template <typename... P>
 struct all_of {
@@ -33,7 +33,7 @@ struct all_of {
 };
 
 /**
- * @brief Tests if any of the provided predicates return true
+ * Tests if any of the provided predicates return true
  */
 template <typename... P>
 struct any_of {
@@ -50,7 +50,7 @@ struct any_of {
 };
 
 /**
- * @brief Tests if none of the provided predicates return true
+ * Tests if none of the provided predicates return true
  */
 template <typename... P>
 struct none_of {
@@ -67,7 +67,7 @@ struct none_of {
 };
 
 /**
- * @brief Conditional predicate that applies different predicates based on a condition
+ * Conditional predicate that applies different predicates based on a condition
  */
 template <typename C, typename T, typename E>
 struct conditional {
@@ -86,7 +86,7 @@ struct conditional {
 };
 
 /**
- * @brief Tests if exactly n of the provided predicates return true
+ * Tests if exactly n of the provided predicates return true
  */
 template <typename... P>
 struct exactly_n_of {
@@ -106,7 +106,7 @@ struct exactly_n_of {
 };
 
 /**
- * @brief Tests if at least n of the provided predicates return true
+ * Tests if at least n of the provided predicates return true
  */
 template <typename... P>
 struct at_least_n_of {
@@ -126,7 +126,7 @@ struct at_least_n_of {
 };
 
 /**
- * @brief Tests if at most n of the provided predicates return true
+ * Tests if at most n of the provided predicates return true
  */
 template <typename... P>
 struct at_most_n_of {

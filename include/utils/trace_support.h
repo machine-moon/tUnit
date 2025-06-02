@@ -160,8 +160,8 @@ template <typename... Args>
       TraceContext::enrich_exception(ex);
     }
     printf("TracedException: %s\n", ex.what());
-    exit(EXIT_SUCCESS); // program will terminate here
-    throw;  
+    exit(EXIT_SUCCESS);  // program will terminate here
+    throw;
   }
 }
 

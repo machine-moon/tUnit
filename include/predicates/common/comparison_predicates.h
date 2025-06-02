@@ -8,7 +8,7 @@ namespace tunit {
 namespace predicates {
 
 /**
- * @brief Tests if two values are equal
+ * Tests if two values are equal
  */
 struct is_equal {
   TUNIT_CONSTEXPR is_equal() noexcept = default;
@@ -21,7 +21,7 @@ struct is_equal {
 };
 
 /**
- * @brief Tests if two values are not equal
+ * Tests if two values are not equal
  */
 struct is_not_equal {
   TUNIT_CONSTEXPR is_not_equal() noexcept = default;
@@ -34,7 +34,7 @@ struct is_not_equal {
 };
 
 /**
- * @brief Tests if the first value is greater than the second
+ * Tests if the first value is greater than the second
  */
 struct is_greater {
   TUNIT_CONSTEXPR is_greater() noexcept = default;
@@ -47,7 +47,7 @@ struct is_greater {
 };
 
 /**
- * @brief Tests if the first value is less than the second
+ * Tests if the first value is less than the second
  */
 struct is_less {
   TUNIT_CONSTEXPR is_less() noexcept = default;
@@ -60,7 +60,7 @@ struct is_less {
 };
 
 /**
- * @brief Tests if the first value is greater than or equal to the second
+ * Tests if the first value is greater than or equal to the second
  */
 struct is_greater_equal {
   TUNIT_CONSTEXPR is_greater_equal() noexcept = default;
@@ -73,7 +73,7 @@ struct is_greater_equal {
 };
 
 /**
- * @brief Tests if the first value is less than or equal to the second
+ * Tests if the first value is less than or equal to the second
  */
 struct is_less_equal {
   TUNIT_CONSTEXPR is_less_equal() noexcept = default;

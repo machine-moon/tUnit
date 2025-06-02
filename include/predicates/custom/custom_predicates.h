@@ -11,7 +11,7 @@
 namespace tunit::predicates {
 
 /**
- * @brief Tests if a number is a perfect square
+ * Tests if a number is a perfect square
  */
 struct is_perfect_square {
   TUNIT_CONSTEXPR is_perfect_square() noexcept = default;
@@ -26,7 +26,7 @@ struct is_perfect_square {
 };
 
 /**
- * @brief Tests if a string is a palindrome 
+ * Tests if a string is a palindrome
  */
 struct is_palindrome {
   TUNIT_CONSTEXPR is_palindrome() noexcept = default;
@@ -46,7 +46,7 @@ struct is_palindrome {
 };
 
 /**
- * @brief Tests if a number is prime
+ * Tests if a number is prime
  */
 struct is_prime {
   TUNIT_CONSTEXPR is_prime() noexcept = default;

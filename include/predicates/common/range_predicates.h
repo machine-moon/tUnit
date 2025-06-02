@@ -8,7 +8,7 @@ namespace tunit {
 namespace predicates {
 
 /**
- * @brief Tests if a value is within a specified range (inclusive)
+ * Tests if a value is within a specified range (inclusive)
  */
 struct is_in_range {
   TUNIT_CONSTEXPR is_in_range() noexcept = default;
@@ -21,7 +21,7 @@ struct is_in_range {
 };
 
 /**
- * @brief Tests if a value is outside a specified range
+ * Tests if a value is outside a specified range
  */
 struct is_out_of_range {
   TUNIT_CONSTEXPR is_out_of_range() noexcept = default;

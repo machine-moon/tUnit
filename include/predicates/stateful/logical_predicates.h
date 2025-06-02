@@ -13,7 +13,7 @@ namespace tunit {
 namespace predicates {
 
 /**
- * @brief Logical AND combinator for predicates
+ * Logical AND combinator for predicates
  */
 template <typename T, typename U>
 struct and_ {
@@ -30,7 +30,7 @@ struct and_ {
 };
 
 /**
- * @brief Logical OR combinator for predicates
+ * Logical OR combinator for predicates
  */
 template <typename T, typename U>
 struct or_ {
@@ -47,7 +47,7 @@ struct or_ {
 };
 
 /**
- * @brief Logical XOR combinator for predicates
+ * Logical XOR combinator for predicates
  */
 template <typename T, typename U>
 struct xor_ {
@@ -66,7 +66,7 @@ struct xor_ {
 };
 
 /**
- * @brief Logical NOT combinator for predicates
+ * Logical NOT combinator for predicates
  */
 template <typename P>
 struct not_ {
@@ -82,7 +82,7 @@ struct not_ {
 };
 
 /**
- * @brief Logical NAND combinator for predicates
+ * Logical NAND combinator for predicates
  */
 template <typename T, typename U>
 struct nand_ {
@@ -99,7 +99,7 @@ struct nand_ {
 };
 
 /**
- * @brief Logical NOR combinator for predicates
+ * Logical NOR combinator for predicates
  */
 template <typename T, typename U>
 struct nor_ {
@@ -116,7 +116,7 @@ struct nor_ {
 };
 
 /**
- * @brief Logical implication combinator for predicates (A implies B = !A || B)
+ * Logical implication combinator for predicates (A implies B = !A || B)
  */
 template <typename T, typename U>
 struct implies {

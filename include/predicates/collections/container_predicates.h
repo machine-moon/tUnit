@@ -15,7 +15,7 @@ namespace predicates {
 // ********************** Container Element Predicates **********************
 
 /**
- * @brief Tests if a container contains a specific element
+ * Tests if a container contains a specific element
  */
 struct contains_element {
   TUNIT_CONSTEXPR contains_element() noexcept = default;
@@ -30,7 +30,7 @@ struct contains_element {
 };
 
 /**
- * @brief Tests if a container contains at least one element satisfying a predicate
+ * Tests if a container contains at least one element satisfying a predicate
  */
 struct contains_if {
   TUNIT_CONSTEXPR contains_if() noexcept = default;
@@ -44,7 +44,7 @@ struct contains_if {
 };
 
 /**
- * @brief Tests if a container contains all elements from another container
+ * Tests if a container contains all elements from another container
  */
 struct contains_all_elements {
   TUNIT_CONSTEXPR contains_all_elements() noexcept = default;
@@ -58,7 +58,7 @@ struct contains_all_elements {
 };
 
 /**
- * @brief Tests if a container contains any elements from another container
+ * Tests if a container contains any elements from another container
  */
 struct contains_any_elements {
   TUNIT_CONSTEXPR contains_any_elements() noexcept = default;
@@ -74,7 +74,7 @@ struct contains_any_elements {
 // ********************** Container Size Predicates **********************
 
 /**
- * @brief Tests if a container is empty
+ * Tests if a container is empty
  */
 struct is_empty {
   TUNIT_CONSTEXPR is_empty() noexcept = default;
@@ -87,7 +87,7 @@ struct is_empty {
 };
 
 /**
- * @brief Tests if a container is not empty
+ * Tests if a container is not empty
  */
 struct is_not_empty {
   TUNIT_CONSTEXPR is_not_empty() noexcept = default;
@@ -100,7 +100,7 @@ struct is_not_empty {
 };
 
 /**
- * @brief Tests if a container has an exact size
+ * Tests if a container has an exact size
  */
 struct has_size {
   TUNIT_CONSTEXPR has_size() noexcept = default;
@@ -113,7 +113,7 @@ struct has_size {
 };
 
 /**
- * @brief Tests if a container has at least a minimum size
+ * Tests if a container has at least a minimum size
  */
 struct has_min_size {
   TUNIT_CONSTEXPR has_min_size() noexcept = default;
@@ -126,7 +126,7 @@ struct has_min_size {
 };
 
 /**
- * @brief Tests if a container has at most a maximum size
+ * Tests if a container has at most a maximum size
  */
 struct has_max_size {
   TUNIT_CONSTEXPR has_max_size() noexcept = default;
@@ -139,7 +139,7 @@ struct has_max_size {
 };
 
 /**
- * @brief Tests if a container size is within a specified range
+ * Tests if a container size is within a specified range
  */
 struct has_size_in_range {
   TUNIT_CONSTEXPR has_size_in_range() noexcept = default;
@@ -155,7 +155,7 @@ struct has_size_in_range {
 // ********************** Container Algorithm Predicates **********************
 
 /**
- * @brief Tests if all elements in a container satisfy a predicate
+ * Tests if all elements in a container satisfy a predicate
  */
 struct all_elements_satisfy {
   TUNIT_CONSTEXPR all_elements_satisfy() noexcept = default;
@@ -169,7 +169,7 @@ struct all_elements_satisfy {
 };
 
 /**
- * @brief Tests if any element in a container satisfies a predicate
+ * Tests if any element in a container satisfies a predicate
  */
 struct any_element_satisfies {
   TUNIT_CONSTEXPR any_element_satisfies() noexcept = default;
@@ -183,7 +183,7 @@ struct any_element_satisfies {
 };
 
 /**
- * @brief Tests if no elements in a container satisfy a predicate
+ * Tests if no elements in a container satisfy a predicate
  */
 struct no_elements_satisfy {
   TUNIT_CONSTEXPR no_elements_satisfy() noexcept = default;
@@ -197,7 +197,7 @@ struct no_elements_satisfy {
 };
 
 /**
- * @brief Counts the number of elements satisfying a predicate
+ * Counts the number of elements satisfying a predicate
  */
 struct count_elements_satisfying {
   TUNIT_CONSTEXPR count_elements_satisfying() noexcept = default;
@@ -211,7 +211,7 @@ struct count_elements_satisfying {
 };
 
 /**
- * @brief Tests if exactly n elements satisfy a predicate
+ * Tests if exactly n elements satisfy a predicate
  */
 struct exactly_n_elements_satisfy {
   TUNIT_CONSTEXPR exactly_n_elements_satisfy() noexcept = default;
@@ -225,7 +225,7 @@ struct exactly_n_elements_satisfy {
 };
 
 /**
- * @brief Tests if at least n elements satisfy a predicate
+ * Tests if at least n elements satisfy a predicate
  */
 struct at_least_n_elements_satisfy {
   TUNIT_CONSTEXPR at_least_n_elements_satisfy() noexcept = default;
@@ -239,7 +239,7 @@ struct at_least_n_elements_satisfy {
 };
 
 /**
- * @brief Tests if at most n elements satisfy a predicate
+ * Tests if at most n elements satisfy a predicate
  */
 struct at_most_n_elements_satisfy {
   TUNIT_CONSTEXPR at_most_n_elements_satisfy() noexcept = default;
@@ -255,7 +255,7 @@ struct at_most_n_elements_satisfy {
 // ********************** Container Ordering Predicates **********************
 
 /**
- * @brief Tests if a container is sorted in ascending order
+ * Tests if a container is sorted in ascending order
  */
 struct is_sorted {
   TUNIT_CONSTEXPR is_sorted() noexcept = default;
@@ -276,7 +276,7 @@ struct is_sorted {
 };
 
 /**
- * @brief Tests if a container is sorted in descending order
+ * Tests if a container is sorted in descending order
  */
 struct is_reverse_sorted {
   TUNIT_CONSTEXPR is_reverse_sorted() noexcept = default;
@@ -290,7 +290,7 @@ struct is_reverse_sorted {
 };
 
 /**
- * @brief Tests if all elements in a container are unique
+ * Tests if all elements in a container are unique
  */
 struct is_unique {
   TUNIT_CONSTEXPR is_unique() noexcept = default;
@@ -308,7 +308,7 @@ struct is_unique {
 // ********************** Container Equality Predicates **********************
 
 /**
- * @brief Tests if two containers are equal element by element
+ * Tests if two containers are equal element by element
  */
 struct containers_equal {
   TUNIT_CONSTEXPR containers_equal() noexcept = default;
@@ -329,7 +329,7 @@ struct containers_equal {
 };
 
 /**
- * @brief Tests if one container is a permutation of another
+ * Tests if one container is a permutation of another
  */
 struct is_permutation_of {
   TUNIT_CONSTEXPR is_permutation_of() noexcept = default;

@@ -12,7 +12,7 @@ template <typename T>
 constexpr bool is_integral_type_v = std::is_integral_v<std::decay_t<T>>;
 
 /**
- * @brief Tests if a number is even
+ * Tests if a number is even
  */
 struct is_even {
   TUNIT_CONSTEXPR is_even() noexcept = default;
@@ -34,7 +34,7 @@ struct is_even {
 };
 
 /**
- * @brief Tests if a number is odd
+ * Tests if a number is odd
  */
 struct is_odd {
   TUNIT_CONSTEXPR is_odd() noexcept = default;
@@ -56,7 +56,7 @@ struct is_odd {
 };
 
 /**
- * @brief Tests if a number is positive
+ * Tests if a number is positive
  */
 struct is_positive {
   TUNIT_CONSTEXPR is_positive() noexcept = default;
@@ -75,7 +75,7 @@ struct is_positive {
 };
 
 /**
- * @brief Tests if a number is negative
+ * Tests if a number is negative
  */
 struct is_negative {
   TUNIT_CONSTEXPR is_negative() noexcept = default;
@@ -94,7 +94,7 @@ struct is_negative {
 };
 
 /**
- * @brief Tests if a number is zero
+ * Tests if a number is zero
  */
 struct is_zero {
   TUNIT_CONSTEXPR is_zero() noexcept = default;

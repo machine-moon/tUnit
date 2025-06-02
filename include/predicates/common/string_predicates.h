@@ -9,7 +9,7 @@ namespace tunit {
 namespace predicates {
 
 /**
- * @brief Tests if a string contains a specified substring
+ * Tests if a string contains a specified substring
  */
 struct contains_substring {
   TUNIT_CONSTEXPR contains_substring() noexcept = default;
@@ -24,7 +24,7 @@ struct contains_substring {
 };
 
 /**
- * @brief Tests if a string starts with a specified prefix
+ * Tests if a string starts with a specified prefix
  */
 struct starts_with {
   TUNIT_CONSTEXPR starts_with() noexcept = default;
@@ -39,7 +39,7 @@ struct starts_with {
 };
 
 /**
- * @brief Tests if a string ends with a specified suffix
+ * Tests if a string ends with a specified suffix
  */
 struct ends_with {
   TUNIT_CONSTEXPR ends_with() noexcept = default;
