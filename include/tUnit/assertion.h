@@ -4,6 +4,9 @@
 namespace tUnit
 {
 
+/**
+ * Represents a single test assertion with description and result
+ */
 class Assertion
 {
 public:

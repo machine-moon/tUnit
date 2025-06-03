@@ -1,3 +1,6 @@
+/**
+ * Exception tracing system for detailed error context and debugging
+ */
 #pragma once
 
 #include <cstdint>
@@ -49,7 +52,7 @@ private:
   mutable std::string full_message_;
 
 public:
-  TracedException(const std::string &message) : std::runtime_error(std::move(message)), original_message_(std::move(message)) {}
+  TracedException(const std::string &message) : std::runtime_error(message), original_message_(message) {}
 
   void add_trace(const TraceInfo &trace_point)
   {

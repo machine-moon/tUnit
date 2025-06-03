@@ -1,3 +1,6 @@
+/**
+ * String-specific predicates for content, prefix, and suffix testing
+ */
 #pragma once
 
 #include <string>

@@ -1,3 +1,6 @@
+/**
+ * Range-based predicates for testing values within bounds
+ */
 #pragma once
 
 #include <functional>

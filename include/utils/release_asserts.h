@@ -1,11 +1,9 @@
+/**
+ * Release-mode assertion macros that work even in release builds
+ */
 #pragma once
 
-/**
- * This header provides a macro for release assertions in the tunit library.
- *
- * from:
- * https://github.com/attwoodn/cpp-expression-tree/blob/main/tests/release_asserts.hpp
- */
+// from: github.com/attwoodn/cpp-expression-tree/blob/main/tests/release_asserts.hpp
 
 #ifdef NDEBUG
 #undef NDEBUG

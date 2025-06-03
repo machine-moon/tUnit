@@ -1,3 +1,6 @@
+/**
+ * Numeric predicates for mathematical comparisons and validations
+ */
 #pragma once
 
 #include <functional>

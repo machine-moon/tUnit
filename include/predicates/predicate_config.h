@@ -1,7 +1,8 @@
+/**
+ * Configuration macros for predicate compilation and tracing modes
+ */
 #pragma once
 
-// Predicate Configuration for TUnit
-//
 // Two modes available:
 // - (1): constexpr enabled, predicate tracing disabled - for release builds (saves CI/CD minutes by testing at compile time)
 // - (0): constexpr disabled, predicate tracing enabled - for development and debugging

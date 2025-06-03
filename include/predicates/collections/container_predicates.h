@@ -1,3 +1,6 @@
+/**
+ * Container testing predicates for size, content, and element validation
+ */
 #pragma once
 
 #include <algorithm>

@@ -11,6 +11,9 @@ namespace tUnit
 class Assertion;
 class Orchestrator;
 
+/**
+ * Individual test case that can run assertions and expectations
+ */
 class Test
 {
 public:

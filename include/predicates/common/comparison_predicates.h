@@ -1,3 +1,6 @@
+/**
+ * Basic comparison predicates for equality, inequality, and ordering
+ */
 #pragma once
 
 #include <functional>

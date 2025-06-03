@@ -1,3 +1,6 @@
+/**
+ * Advanced stateful predicates for multi-step and complex validations
+ */
 #pragma once
 
 #include <algorithm>

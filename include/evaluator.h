@@ -8,6 +8,9 @@
 namespace tUnit
 {
 
+/**
+ * Core evaluation engine that applies predicates to compare values
+ */
 template <typename T, typename U = T, typename P = bool (*)(const T &, const U &)>
 class Evaluator
 {

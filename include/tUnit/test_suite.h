@@ -8,6 +8,9 @@ namespace tUnit
 
 class Test;
 
+/**
+ * Collection of related test cases grouped under a suite name
+ */
 class Suite
 {
 public:

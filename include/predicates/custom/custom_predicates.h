@@ -1,3 +1,6 @@
+/**
+ * Custom domain-specific predicates for specialized testing scenarios
+ */
 #pragma once
 
 #include <algorithm>

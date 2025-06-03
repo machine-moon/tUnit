@@ -11,6 +11,9 @@ class Suite;
 class Test;
 class Assertion;
 
+/**
+ * Central instance that orchestrates test execution and result collection
+ */
 class Orchestrator
 {
 public:
