@@ -174,31 +174,24 @@ struct at_most_n_of
 
 // TODO: Implement automatic deduction guides for complex predicates
 
-// Deduction guide for all_of
 template <typename... Preds>
 all_of(Preds &&...) -> all_of<std::decay_t<Preds>...>;
 
-// Deduction guide for any_of
 template <typename... Preds>
 any_of(Preds &&...) -> any_of<std::decay_t<Preds>...>;
 
-// Deduction guide for none_of
 template <typename... Preds>
 none_of(Preds &&...) -> none_of<std::decay_t<Preds>...>;
 
-// Deduction guide for conditional
 template <typename C, typename T, typename E>
 conditional(C &&, T &&, E &&) -> conditional<std::decay_t<C>, std::decay_t<T>, std::decay_t<E>>;
 
-// Deduction guide for exactly_n_of
 template <typename... Preds>
 exactly_n_of(std::size_t, Preds &&...) -> exactly_n_of<std::decay_t<Preds>...>;
 
-// Deduction guide for at_least_n_of
 template <typename... Preds>
 at_least_n_of(std::size_t, Preds &&...) -> at_least_n_of<std::decay_t<Preds>...>;
 
-// Deduction guide for at_most_n_of
 template <typename... Preds>
 at_most_n_of(std::size_t, Preds &&...) -> at_most_n_of<std::decay_t<Preds>...>;
 

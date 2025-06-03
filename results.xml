@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="45" failures="1" assertions="152" failed_assertions="1">
+  <testsuite name="Integration Tests" tests="6" failures="0">
+    <testcase name="String and Container Integration" classname="Integration Tests">
+    </testcase>
+    <testcase name="Numeric Predicates With Containers" classname="Integration Tests">
+    </testcase>
+    <testcase name="Complex Container Logic" classname="Integration Tests">
+    </testcase>
+    <testcase name="Conditional Logic With Containers" classname="Integration Tests">
+    </testcase>
+    <testcase name="Range Predicates With Containers" classname="Integration Tests">
+    </testcase>
+    <testcase name="Complex Logical Combinations" classname="Integration Tests">
+    </testcase>
+  </testsuite>
+  <testsuite name="Evaluator Core" tests="7" failures="0">
+    <testcase name="Basic Evaluator Operations" classname="Evaluator Core">
+    </testcase>
+    <testcase name="Evaluator Compare Method" classname="Evaluator Core">
+    </testcase>
+    <testcase name="String Evaluators" classname="Evaluator Core">
+    </testcase>
+    <testcase name="Numeric and Custom Evaluators" classname="Evaluator Core">
+    </testcase>
+    <testcase name="Different Predicate Types" classname="Evaluator Core">
+    </testcase>
+    <testcase name="Negative Cases" classname="Evaluator Core">
+    </testcase>
+    <testcase name="Evaluator Use Method" classname="Evaluator Core">
+    </testcase>
+  </testsuite>
+  <testsuite name="Complex Predicates" tests="7" failures="0">
+    <testcase name="conditional" classname="Complex Predicates">
+    </testcase>
+    <testcase name="any_of" classname="Complex Predicates">
+    </testcase>
+    <testcase name="at_least_n_of" classname="Complex Predicates">
+    </testcase>
+    <testcase name="exactly_n_of" classname="Complex Predicates">
+    </testcase>
+    <testcase name="none_of" classname="Complex Predicates">
+    </testcase>
+    <testcase name="all_of" classname="Complex Predicates">
+    </testcase>
+    <testcase name="at_most_n_of" classname="Complex Predicates">
+    </testcase>
+  </testsuite>
+  <testsuite name="Logical Predicates" tests="7" failures="0">
+    <testcase name="complex_combinations" classname="Logical Predicates">
+    </testcase>
+    <testcase name="implies_predicate" classname="Logical Predicates">
+    </testcase>
+    <testcase name="xor_predicate" classname="Logical Predicates">
+    </testcase>
+    <testcase name="or_predicate" classname="Logical Predicates">
+    </testcase>
+    <testcase name="not_predicate" classname="Logical Predicates">
+    </testcase>
+    <testcase name="and_predicate" classname="Logical Predicates">
+    </testcase>
+    <testcase name="nand_nor_predicates" classname="Logical Predicates">
+    </testcase>
+  </testsuite>
+  <testsuite name="Syntax Demo" tests="8" failures="0">
+    <testcase name="Mixed Type Comparisons" classname="Syntax Demo">
+    </testcase>
+    <testcase name="Range Predicates" classname="Syntax Demo">
+    </testcase>
+    <testcase name="Basic Numeric Comparisons" classname="Syntax Demo">
+    </testcase>
+    <testcase name="Expectations" classname="Syntax Demo">
+    </testcase>
+    <testcase name="Container Operations" classname="Syntax Demo">
+    </testcase>
+    <testcase name="Single Parameter Predicates" classname="Syntax Demo">
+    </testcase>
+    <testcase name="String Operations" classname="Syntax Demo">
+    </testcase>
+    <testcase name="Complex Predicates" classname="Syntax Demo">
+    </testcase>
+  </testsuite>
+  <testsuite name="Common Predicates" tests="7" failures="1">
+    <testcase name="Numeric Predicates" classname="Common Predicates">
+    </testcase>
+    <testcase name="Two Value Predicates" classname="Common Predicates">
+    </testcase>
+    <testcase name="Range Predicates" classname="Common Predicates">
+    </testcase>
+    <testcase name="Edge Cases" classname="Common Predicates">
+      <failure message="0 is_equal 0">
+        0 is_equal 0
+      </failure>
+    </testcase>
+    <testcase name="CString Predicates" classname="Common Predicates">
+    </testcase>
+    <testcase name="String Predicates" classname="Common Predicates">
+    </testcase>
+    <testcase name="Basic Comparisons" classname="Common Predicates">
+    </testcase>
+  </testsuite>
+  <testsuite name="Exception Tracing" tests="3" failures="0">
+    <testcase name="Deep Nesting Exception Tracing" classname="Exception Tracing">
+    </testcase>
+    <testcase name="Nested Exception Tracing" classname="Exception Tracing">
+    </testcase>
+    <testcase name="Basic Exception Tracing" classname="Exception Tracing">
+    </testcase>
+  </testsuite>
+</testsuites>

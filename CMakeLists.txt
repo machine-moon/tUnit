@@ -27,23 +27,41 @@ message(STATUS "C compiler: ${CMAKE_C_COMPILER}")
 
 # Build configuration
 if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build type" FORCE)
+    set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
 endif()
+message(STATUS "CMake build type: ${CMAKE_BUILD_TYPE}")
 
-# Compiler flags 
+# Set TUNIT_MODE based on build type
+if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
+    set(TUNIT_MODE 0)
+elseif(CMAKE_BUILD_TYPE STREQUAL "Release" OR CMAKE_BUILD_TYPE STREQUAL "MinSizeRel")
+    set(TUNIT_MODE 1)
+else()
+    set(TUNIT_MODE 0)
+endif()
+message(STATUS "TUNIT_MODE: ${TUNIT_MODE}")
+
+# Print TUNIT_MODE_DESC based on TUNIT_MODE
+if(TUNIT_MODE EQUAL 0)
+    set(TUNIT_MODE_DESC "TUNIT_MODE = 0: constexpr disabled, predicate tracing enabled - for development and debugging")
+else()
+    set(TUNIT_MODE_DESC "TUNIT_MODE = 1: constexpr enabled, predicate tracing disabled - for release builds (saves CI/CD minutes by testing at compile time)")
+endif()
+message(STATUS "${TUNIT_MODE_DESC}")
+
+# Set compiler flags and definitions
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    add_definitions(-DNDEBUG -DTUNIT_MODE=0)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -Wall -Wextra")
 elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
-    add_definitions(-DNDEBUG -DTUNIT_MODE=1)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -DNDEBUG")
 elseif(CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
-    add_definitions(-DNDEBUG -DTUNIT_MODE=0)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -g")
 elseif(CMAKE_BUILD_TYPE STREQUAL "MinSizeRel")
-    add_definitions(-DNDEBUG -DTUNIT_MODE=1)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Os -DNDEBUG")
 endif()
+
+# Always define TUNIT_MODE for all targets
+add_compile_definitions(TUNIT_MODE=${TUNIT_MODE})
 
 # Library Sources
 set(TUNIT_LIB_SOURCES

@@ -8,7 +8,7 @@
 // - (0): constexpr disabled, predicate tracing enabled - for development and debugging
 
 #ifndef TUNIT_MODE
-#define TUNIT_MODE 0
+#define TUNIT_MODE 1 
 #endif
 
 #if TUNIT_MODE

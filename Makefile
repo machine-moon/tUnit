@@ -17,7 +17,7 @@ build: clean
 	@cmake -B $(BUILD_DIR) -G Ninja -DCMAKE_CXX_COMPILER=g++
 
 compile: build
-	@cmake --build $(BUILD_DIR) --config Debug
+	@cmake --build $(BUILD_DIR)
 
 clean:
 	@rm -rf $(BUILD_DIR)
@@ -34,4 +34,4 @@ check: lint tidy
 
 # Test target
 test: build
-	@cd $(BUILD_DIR) && ctest --output-on-failure
+	@ctest --test-dir $(BUILD_DIR) --output-on-failure

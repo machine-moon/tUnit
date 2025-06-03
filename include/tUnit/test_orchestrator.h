@@ -1,4 +1,5 @@
 #pragma once
+#include "utils/trace_support.h"
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -19,6 +20,8 @@ class Orchestrator
 public:
   static Orchestrator &instance();
 
+  void parse_args(int argc, char *argv[]);
+
   Suite &get_suite(const std::string &name);
   Test &get_test(const std::string &suite_name, const std::string &test_name);
   void log_assertion(const std::string &suite_name, const std::string &test_name, Assertion &&assertion);
@@ -27,6 +30,8 @@ public:
   size_t total_assertions() const;
   size_t failed_assertions() const;
   void print_summary() const;
+
+  void write_xml_output() const;
 
   const std::unordered_map<std::string, std::unique_ptr<Suite>> &suites() const;
   const std::unordered_map<std::string, std::unique_ptr<Test>> &tests() const;
@@ -45,6 +50,9 @@ private:
   std::unordered_map<std::string, std::unique_ptr<Suite>> suites_;
   std::unordered_map<std::string, std::unique_ptr<Test>> tests_;
   std::unordered_map<std::string, std::vector<Assertion>> assertions_;
+
+  std::string xml_output_path_;
+  bool failures_only_ = false;
 
   static Orchestrator *instance_;
 };

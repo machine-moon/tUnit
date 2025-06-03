@@ -3,7 +3,11 @@
 #include "tUnit/test_case.h"
 #include "tUnit/test_suite.h"
 #include "utils/trace_support.h"
+#include <cstring>
+#include <fstream>
+#include <iomanip>
 #include <iostream>
+#include <sstream>
 
 namespace tUnit
 {
@@ -148,6 +152,162 @@ void Orchestrator::print_summary() const
   }
 
   std::cout << "===================" << std::endl;
+}
+
+void Orchestrator::parse_args(int argc, char *argv[])
+{
+  for (int i = 1; i < argc; ++i)
+  {
+    if (std::strcmp(argv[i], "-C") == 0 && i + 1 < argc)
+    {
+      xml_output_path_ = argv[i + 1];
+      ++i;
+    }
+    else if (std::strcmp(argv[i], "-f") == 0)
+    {
+      failures_only_ = true;
+    }
+  }
+}
+
+void Orchestrator::write_xml_output() const
+{
+  if (xml_output_path_.empty())
+  {
+    return; // No XML output requested
+  }
+
+  std::ofstream xml_file(xml_output_path_);
+  if (!xml_file.is_open())
+  {
+    std::cerr << "Error: Could not open XML output file: " << xml_output_path_ << std::endl;
+    return;
+  }
+
+  // Test statistics
+  size_t total_tests = tests_.size();
+  size_t failed_tests = 0;
+  size_t total_assertions = 0;
+  size_t failed_assertions = 0;
+
+  for (const auto &[test_key, test] : tests_)
+  {
+    auto assertions_it = assertions_.find(test_key);
+    if (assertions_it != assertions_.end())
+    {
+      const auto &assertions = assertions_it->second;
+      total_assertions += assertions.size();
+
+      bool test_failed = false;
+      for (const auto &assertion : assertions)
+      {
+        if (!assertion.result_)
+        {
+          failed_assertions++;
+          test_failed = true;
+        }
+      }
+      if (test_failed)
+      {
+        failed_tests++;
+      }
+    }
+  }
+
+  // XML header
+  xml_file << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+  xml_file << "<testsuites tests=\"" << total_tests << "\" failures=\"" << failed_tests
+           << "\" assertions=\"" << total_assertions << "\" failed_assertions=\"" << failed_assertions << "\">\n";
+
+  // Group tests by suite
+  std::unordered_map<std::string, std::vector<std::pair<std::string, const Test *>>> suites_map;
+  for (const auto &[test_key, test] : tests_)
+  {
+    suites_map[test->suite_name()].emplace_back(test->name(), test.get());
+  }
+
+  // Write each test suite
+  for (const auto &[suite_name, suite_tests] : suites_map)
+  {
+    size_t suite_test_count = suite_tests.size();
+    size_t suite_failures = 0;
+
+    // Count failures in this suite
+    for (const auto &[test_name, test] : suite_tests)
+    {
+      std::string test_key = test->suite_name() + "::" + test->name();
+      auto assertions_it = assertions_.find(test_key);
+      if (assertions_it != assertions_.end())
+      {
+        const auto &assertions = assertions_it->second;
+        for (const auto &assertion : assertions)
+        {
+          if (!assertion.result_)
+          {
+            suite_failures++;
+            break; // Count as one failed test, not per assertion
+          }
+        }
+      }
+    }
+
+    xml_file << "  <testsuite name=\"" << suite_name << "\" tests=\"" << suite_test_count
+             << "\" failures=\"" << suite_failures << "\">\n";
+
+    // Write individual test cases
+    for (const auto &[test_name, test] : suite_tests)
+    {
+      std::string test_key = test->suite_name() + "::" + test->name();
+      auto assertions_it = assertions_.find(test_key);
+      bool test_has_failures = false;
+
+      // Check if test has failures
+      if (assertions_it != assertions_.end())
+      {
+        const auto &assertions = assertions_it->second;
+        for (const auto &assertion : assertions)
+        {
+          if (!assertion.result_)
+          {
+            test_has_failures = true;
+            break;
+          }
+        }
+      }
+
+      // Skip passed tests if failures_only_ is true
+      if (failures_only_ && !test_has_failures)
+      {
+        continue;
+      }
+
+      xml_file << "    <testcase name=\"" << test_name << "\" classname=\"" << suite_name << "\">\n";
+
+      // Add failure details if any
+      if (test_has_failures && assertions_it != assertions_.end())
+      {
+        const auto &assertions = assertions_it->second;
+        for (const auto &assertion : assertions)
+        {
+          if (!assertion.result_)
+          {
+            xml_file << "      <failure message=\"" << assertion.description_ << "\">\n";
+            xml_file << "        " << assertion.description_ << "\n";
+            xml_file << "      </failure>\n";
+          }
+        }
+      }
+
+      xml_file << "    </testcase>\n";
+    }
+
+    xml_file << "  </testsuite>\n";
+  }
+
+  xml_file << "</testsuites>\n";
+  xml_file.close();
+
+  std::cout << "XML output written to: " << xml_output_path_ << std::endl;
 }
 
 } // namespace tUnit

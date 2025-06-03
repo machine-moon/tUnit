@@ -53,8 +53,7 @@ int main() {
   tUnit::Evaluator test4(1, 1, is_equal_lambda);
 
   // Test 5: Inline lambda predicate
-  tUnit::Evaluator test5(1, 1, [](const auto &lhs, const auto &rhs)
-                         { return lhs == rhs; });
+  tUnit::Evaluator test5(1, 1, [](const auto &lhs, const auto &rhs) { return lhs == rhs; });
 
   // Output test results
   std::cout << "\ntest1 (template function): " << test1();
