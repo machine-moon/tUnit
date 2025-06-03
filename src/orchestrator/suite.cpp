@@ -7,19 +7,15 @@ namespace tunit {
 Suite::Suite(const std::string &name) : name_(name) {}
 
 Test &Suite::get_test(const std::string &test_name) {
-  // Check if test name already tracked
-  for (const auto &existing_name : test_names_) {
-    if (existing_name == test_name) {
-      // Test already exists, get it from orchestrator
-      return Orchestrator::instance().get_test(name_, test_name);
-    }
+  auto it = tests_.find(test_name);
+  if (it != tests_.end()) {
+    return *(it->second);
   }
 
-  // New test, add to our tracking list
-  test_names_.push_back(test_name);
-  
-  // Get/create the test from orchestrator
-  return Orchestrator::instance().get_test(name_, test_name);
+  // Create or get the test from orchestrator and store pointer
+  Test &test = Orchestrator::instance().get_test(name_, test_name);
+  tests_[test_name] = &test;
+  return test;
 }
 
 const std::string &Suite::name() const {

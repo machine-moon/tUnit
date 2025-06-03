@@ -1,8 +1,0 @@
-TODO:
-
-staticly link tests 
-namespace em
-
-string copying or moving string_view or const or std::move
-check after each new call
-XML logging

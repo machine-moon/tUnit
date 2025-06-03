@@ -2,14 +2,15 @@
 
 // Single header
 #include "evaluator.h"
-#include "orchestrator/orchestrator.h"
 
+// todo: rename this:
+#include "orchestrator/orchestrator.h"
 #include "orchestrator/assertion.h"
 #include "orchestrator/suite.h"
 #include "orchestrator/test.h"
 
 #include "predicates/all_predicates.h"
-// #include "utils/release_asserts.h"
+// #include "utils/release_asserts.h" //conflicts with ASSERT macro
 #include "utils/trace_support.h"
 
 // This header provides all core components of the tunit library:

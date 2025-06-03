@@ -9,6 +9,7 @@ project(TUNIT
 # Project Configuration
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON CACHE BOOL "" FORCE)
 
 # Compilers
 if(NOT DEFINED CMAKE_CXX_COMPILER)
@@ -46,7 +47,9 @@ endif()
 
 # Library Sources
 set(TUNIT_LIB_SOURCES
-    src/utils/runner.cpp
+    src/orchestrator/orchestrator.cpp
+    src/orchestrator/suite.cpp
+    src/orchestrator/test.cpp
     src/utils/trace_support.cpp
 )
 
@@ -82,3 +85,4 @@ target_include_directories(tUnitTests PRIVATE include)
 
 # Register tests with CTest
 add_test(NAME tUnitTests COMMAND tUnitTests)
+

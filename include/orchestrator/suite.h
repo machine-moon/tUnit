@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace tunit {
@@ -16,8 +17,8 @@ public:
 
 private:
   std::string name_;
-  std::vector<std::string>
-      test_names_; // Store test names or IDs for mapping in Orchestrator
+  std::unordered_map<std::string, Test*> tests_; 
+
 
   friend class Orchestrator;
 };
