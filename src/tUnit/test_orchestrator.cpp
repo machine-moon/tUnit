@@ -15,8 +15,10 @@ Orchestrator::~Orchestrator()
 }
 Orchestrator &Orchestrator::instance()
 {
+  TUNIT_TRACE_FUNCTION();
   if (instance_ == nullptr)
   {
+    TUNIT_SCOPED_TRACE("creating_singleton_instance");
     instance_ = new Orchestrator();
   }
   return *instance_;
@@ -24,6 +26,7 @@ Orchestrator &Orchestrator::instance()
 
 Suite &Orchestrator::get_suite(const std::string &name)
 {
+  TUNIT_TRACE_FUNCTION();
   auto it = suites_.find(name);
   if (it != suites_.end())
   {
@@ -31,12 +34,14 @@ Suite &Orchestrator::get_suite(const std::string &name)
   }
 
   // Create if it doesn't exist
+  TUNIT_SCOPED_TRACE("creating_new_suite");
   suites_[name] = std::make_unique<Suite>(name);
   return *(suites_[name]);
 }
 
 Test &Orchestrator::get_test(const std::string &suite_name, const std::string &test_name)
 {
+  TUNIT_TRACE_FUNCTION();
   std::string test_key = suite_name + "::" + test_name;
 
   auto it = tests_.find(test_key);
@@ -46,12 +51,14 @@ Test &Orchestrator::get_test(const std::string &suite_name, const std::string &t
   }
 
   // Create if it doesn't exist
+  TUNIT_SCOPED_TRACE("creating_new_test");
   tests_[test_key] = std::make_unique<Test>(suite_name, test_name);
   return *(tests_[test_key]);
 }
 
 void Orchestrator::log_assertion(const std::string &suite_name, const std::string &test_name, Assertion &&assertion)
 {
+  TUNIT_TRACE_FUNCTION();
   std::string test_key = suite_name + "::" + test_name;
   assertions_[test_key].emplace_back(std::move(assertion));
 }
@@ -68,13 +75,14 @@ const std::unordered_map<std::string, std::unique_ptr<Test>> &Orchestrator::test
 
 const std::vector<Assertion> &Orchestrator::assertions_for(const std::string &suite_name, const std::string &test_name) const
 {
+  TUNIT_TRACE_FUNCTION();
   std::string test_key = suite_name + "::" + test_name;
   auto it = assertions_.find(test_key);
   if (it != assertions_.end())
   {
     return it->second;
   }
-  throw trace::TracedException("No assertions found for test: " + test_key);
+  tUnit::trace::throw_traced("No assertions found for test: " + test_key);
 }
 
 // High complexity:  O(S * T * A)

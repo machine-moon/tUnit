@@ -4,11 +4,19 @@
 namespace tUnit
 {
 
-Test::Test(const std::string &suite_name, const std::string &name) : suite_name_(suite_name), name_(name) {}
+Test::Test(const std::string &suite_name, const std::string &name) : suite_name_(suite_name), name_(name) 
+{
+  TUNIT_TRACE_FUNCTION();
+}
 
 void Test::expect(const std::string &description, bool condition, bool expected)
 {
+  TUNIT_TRACE_FUNCTION();
   bool passed = (condition == expected);
+
+  if (!passed) {
+    TUNIT_SCOPED_TRACE("assertion_failed");
+  }
 
   Assertion assertion(description, passed);
 
