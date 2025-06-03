@@ -1,21 +1,20 @@
 #include "orchestrator/test.h"
 #include "orchestrator/orchestrator.h"
 
-namespace tunit {
+namespace tunit
+{
 
-Test::Test(const std::string &suite_name, const std::string &name)
-    : suite_name_(suite_name), name_(name) {}
+Test::Test(const std::string &suite_name, const std::string &name) : suite_name_(suite_name), name_(name) {}
 
-void Test::expect(const std::string &description, bool condition,
-                  bool expected) {
+void Test::expect(const std::string &description, bool condition, bool expected)
+{
   bool passed = (condition == expected);
 
   Assertion assertion(description, passed);
 
   assertion_ids_.push_back(description);
 
-  Orchestrator::instance().log_assertion(suite_name_, name_,
-                                         std::move(assertion));
+  Orchestrator::instance().log_assertion(suite_name_, name_, std::move(assertion));
 }
 const std::string &Test::name() const { return name_; }
 

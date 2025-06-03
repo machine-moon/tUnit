@@ -5,12 +5,14 @@
 #include <string>
 #include <vector>
 
-namespace tunit {
+namespace tunit
+{
 
 class Assertion;
 class Orchestrator;
 
-class Test {
+class Test
+{
 public:
   Test(const std::string &suite_name, const std::string &name);
 
@@ -32,20 +34,20 @@ private:
 
 #include "orchestrator.h"
 
-namespace tunit {
+namespace tunit
+{
 
 // Template implementation
 template <typename T, typename P, typename U>
-void Test::assert(const std::string &description, const T &lhs, P pred, const U &rhs) {
+void Test::assert(const std::string &description, const T &lhs, P pred, const U &rhs)
+{
   Evaluator evaluator(lhs, rhs, pred);
   bool result = evaluator();
 
   Assertion assertion(description, result);
 
-  // Store assertion ID for tracking
   assertion_ids_.push_back(description);
 
-  // Log with orchestrator
   Orchestrator::instance().log_assertion(suite_name_, name_, std::move(assertion));
 }
 

@@ -3,12 +3,14 @@
 #include <string>
 #include <string_view>
 
-namespace {
+namespace
+{
 namespace pred = tunit::predicates;
 
 auto &suite = tunit::Orchestrator::instance().get_suite("Common Predicates");
 
-void test_basic_comparisons() {
+void test_basic_comparisons()
+{
   auto &test = suite.get_test("Basic Comparisons");
   test.assert("5 is_equal 5", 5, pred::is_equal{}, 5);
   test.assert("10 is_greater 5", 10, pred::is_greater{}, 5);
@@ -18,7 +20,8 @@ void test_basic_comparisons() {
   test.assert("5 is_not_equal 3", 5, pred::is_not_equal{}, 3);
 }
 
-void test_cstring_predicates() {
+void test_cstring_predicates()
+{
   auto &test = suite.get_test("CString Predicates");
   const char *hello = "hello";
   const char *ell = "ell";
@@ -29,14 +32,16 @@ void test_cstring_predicates() {
   test.assert("hello ends_with lo", hello, pred::ends_with{}, lo);
 }
 
-void test_string_predicates() {
+void test_string_predicates()
+{
   auto &test = suite.get_test("String Predicates");
   test.assert("hello contains_substring ell", std::string("hello"), pred::contains_substring{}, std::string("ell"));
   test.assert("hello starts_with he", std::string("hello"), pred::starts_with{}, std::string("he"));
   test.assert("hello ends_with lo", std::string("hello"), pred::ends_with{}, std::string("lo"));
 }
 
-void test_range_predicates() {
+void test_range_predicates()
+{
   auto &test = suite.get_test("Range Predicates");
   test.assert("5 is_greater 1", 5, pred::is_greater{}, 1);
   test.assert("5 is_less 10", 5, pred::is_less{}, 10);
@@ -44,7 +49,8 @@ void test_range_predicates() {
   test.assert("0 is_less_equal 10", 0, pred::is_less_equal{}, 10);
 }
 
-void test_numeric_predicates() {
+void test_numeric_predicates()
+{
   auto &test = suite.get_test("Numeric Predicates");
   test.assert("4 is_equal 4", 4, pred::is_equal{}, 4);
   test.assert("5 is_not_equal 4", 5, pred::is_not_equal{}, 4);
@@ -53,7 +59,8 @@ void test_numeric_predicates() {
   test.assert("0 is_equal 0", 0, pred::is_equal{}, 0);
 }
 
-void test_two_value_predicates() {
+void test_two_value_predicates()
+{
   auto &test = suite.get_test("Two Value Predicates");
   test.assert("4 is_equal 4", 4, pred::is_equal{}, 4);
   test.assert("3 is_equal 3", 3, pred::is_equal{}, 3);
@@ -62,7 +69,8 @@ void test_two_value_predicates() {
   test.assert("0 is_equal 0", 0, pred::is_equal{}, 0);
 }
 
-void test_edge_cases() {
+void test_edge_cases()
+{
   auto &test = suite.get_test("Edge Cases");
   test.assert("0 is_equal 0", 0, pred::is_equal{}, 0);
   test.assert("-4 is_equal -4", -4, pred::is_equal{}, -4);
@@ -72,9 +80,10 @@ void test_edge_cases() {
   test.assert("-1 is_less 0", -1, pred::is_less{}, 0);
 }
 
-// Static initialization to run tests
-struct CommonPredicatesTestRunner {
-  CommonPredicatesTestRunner() {
+struct CommonPredicatesTestRunner
+{
+  CommonPredicatesTestRunner()
+  {
     test_basic_comparisons();
     test_string_predicates();
     test_cstring_predicates();

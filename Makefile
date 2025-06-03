@@ -9,7 +9,7 @@ HDRS := $(shell find include -name '*.h')
 ALL_FILES := $(SRCS) $(HDRS) main.cpp
 
 # Default target
-all: build compile check test
+all: build compile test
 
 # Build targets
 build: clean

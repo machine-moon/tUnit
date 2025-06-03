@@ -3,11 +3,13 @@
 #include <unordered_map>
 #include <vector>
 
-namespace tunit {
+namespace tunit
+{
 
 class Test;
 
-class Suite {
+class Suite
+{
 public:
   Suite(const std::string &name);
 
@@ -17,8 +19,7 @@ public:
 
 private:
   std::string name_;
-  std::unordered_map<std::string, Test*> tests_; 
-
+  std::unordered_map<std::string, Test *> tests_;
 
   friend class Orchestrator;
 };

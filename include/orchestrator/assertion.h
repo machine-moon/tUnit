@@ -1,14 +1,16 @@
 #pragma once
 #include <string>
 
-namespace tunit {
+namespace tunit
+{
 
-struct Assertion {
+class Assertion
+{
+public:
   std::string description_;
   bool result_;
 
-  Assertion(const std::string &desc, bool result)
-      : description_(desc), result_(result) {}
+  Assertion(const std::string &desc, bool result) : description_(desc), result_(result) {}
 };
 
 } // namespace tunit

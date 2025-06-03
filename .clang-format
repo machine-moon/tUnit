@@ -4,3 +4,4 @@ AllowShortIfStatementsOnASingleLine: true
 AllowShortLoopsOnASingleLine: true
 AllowShortBlocksOnASingleLine: Always
 ColumnLimit: 0
+BreakBeforeBraces: Allman

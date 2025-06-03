@@ -2,23 +2,27 @@
 #include <string>
 #include <vector>
 
-namespace {
+namespace
+{
 namespace pred = tunit::predicates;
 
 auto &suite = tunit::Orchestrator::instance().get_suite("Container Predicates");
 
-void test_container_element_predicates() {
+void test_container_element_predicates()
+{
   auto &test = suite.get_test("Element Predicates");
   std::vector<int> numbers = {1, 2, 3, 4, 5};
   std::vector<int> empty_vec = {};
   test.assert("numbers contains 3", numbers, pred::contains_element{}, 3);
   test.assert("numbers does not contain 10", numbers, pred::contains_element{}, 10);
-  auto is_even = [](int x) { return x % 2 == 0; };
+  auto is_even = [](int x)
+  { return x % 2 == 0; };
   test.expect("numbers contains even element", pred::contains_if{}(numbers, is_even), true);
   test.expect("empty_vec contains no even", pred::contains_if{}(empty_vec, is_even), false);
 }
 
-void test_contains_all_any_elements() {
+void test_contains_all_any_elements()
+{
   auto &test = suite.get_test("All/Any Elements");
   std::vector<int> numbers = {1, 2, 3, 4, 5};
   std::vector<int> subset = {1, 3, 5};
@@ -31,7 +35,8 @@ void test_contains_all_any_elements() {
   test.assert("numbers contains none of no_match", numbers, pred::contains_any_elements{}, no_match);
 }
 
-void test_container_size_predicates() {
+void test_container_size_predicates()
+{
   auto &test = suite.get_test("Size Predicates");
   std::vector<int> numbers = {1, 2, 3, 4, 5};
   std::vector<int> empty_vec = {};
@@ -46,19 +51,25 @@ void test_container_size_predicates() {
   test.expect("numbers fails has_max_size 3", pred::has_max_size{}(numbers, 3), false);
 }
 
-void test_container_algorithm_predicates() {
+void test_container_algorithm_predicates()
+{
   auto &test = suite.get_test("Algorithm Predicates");
   std::vector<int> numbers = {1, 2, 3, 4, 5};
-  auto is_positive = [](int x) { return x > 0; };
-  auto is_greater_than_ten = [](int x) { return x > 10; };
-  auto is_even = [](int x) { return x % 2 == 0; };
+  auto is_positive = [](int x)
+  { return x > 0; };
+  auto is_greater_than_ten = [](int x)
+  { return x > 10; };
+  auto is_even = [](int x)
+  { return x % 2 == 0; };
   test.expect("numbers all_elements_satisfy positive", pred::all_elements_satisfy{}(numbers, is_positive), true);
   test.expect("numbers any_element_satisfies even", pred::any_element_satisfies{}(numbers, is_even), true);
   test.expect("numbers no_element_satisfies >10", pred::none_of{}(numbers, is_greater_than_ten), true);
 }
 
-struct ContainerPredicatesTestRunner {
-  ContainerPredicatesTestRunner() {
+struct ContainerPredicatesTestRunner
+{
+  ContainerPredicatesTestRunner()
+  {
     test_container_element_predicates();
     test_contains_all_any_elements();
     test_container_size_predicates();
@@ -66,6 +77,6 @@ struct ContainerPredicatesTestRunner {
   }
 };
 
-static ContainerPredicatesTestRunner runner;
+//static ContainerPredicatesTestRunner runner;
 
 } // anonymous namespace

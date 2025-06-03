@@ -4,8 +4,8 @@
 #include "evaluator.h"
 
 // todo: rename this:
-#include "orchestrator/orchestrator.h"
 #include "orchestrator/assertion.h"
+#include "orchestrator/orchestrator.h"
 #include "orchestrator/suite.h"
 #include "orchestrator/test.h"
 

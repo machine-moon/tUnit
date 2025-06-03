@@ -5,10 +5,12 @@
 #include <type_traits>
 #include <utility>
 
-namespace tunit {
+namespace tunit
+{
 
 template <typename T, typename U = T, typename P = bool (*)(const T &, const U &)>
-class Evaluator {
+class Evaluator
+{
 private:
   T lhs_;
   U rhs_;

@@ -1,8 +1,8 @@
 #include "tunit.h"
 
-int main() {
+int main()
+{
   // Run all test suites
-  // Note: Individual test files will register themselves with the runner
 
   tunit::Orchestrator::instance().print_summary();
 
