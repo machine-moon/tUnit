@@ -47,9 +47,9 @@ endif()
 
 # Library Sources
 set(TUNIT_LIB_SOURCES
-    src/orchestrator/orchestrator.cpp
-    src/orchestrator/suite.cpp
-    src/orchestrator/test.cpp
+    src/tUnit/test_orchestrator.cpp
+    src/tUnit/test_suite.cpp
+    src/tUnit/test_case.cpp
     src/utils/trace_support.cpp
 )
 

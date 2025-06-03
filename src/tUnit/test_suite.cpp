@@ -1,6 +1,6 @@
-#include "../../include/orchestrator/suite.h"
-#include "../../include/orchestrator/orchestrator.h"
-#include "../../include/orchestrator/test.h"
+#include "tUnit/test_suite.h"
+#include "tUnit/test_case.h"
+#include "tUnit/test_orchestrator.h"
 
 namespace tunit
 {

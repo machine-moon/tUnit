@@ -32,7 +32,7 @@ public:
 private:
   Orchestrator() = default;
   ~Orchestrator();
-  
+
   // non-copyable/movable
   Orchestrator(const Orchestrator &) = delete;
   Orchestrator(Orchestrator &&) = delete;

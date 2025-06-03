@@ -1,17 +1,17 @@
 #pragma once
 // This header provides a single inclusion point for all predicate components in the tunit library.
 
-#include "collections/container_predicates.h"
+#include "predicates/collections/container_predicates.h"
 
-#include "common/comparison_predicates.h"
-#include "common/numeric_predicates.h"
-#include "common/range_predicates.h"
-#include "common/string_predicates.h"
+#include "predicates/common/comparison_predicates.h"
+#include "predicates/common/numeric_predicates.h"
+#include "predicates/common/range_predicates.h"
+#include "predicates/common/string_predicates.h"
 
-#include "custom/custom_predicates.h"
+#include "predicates/custom/custom_predicates.h"
 
-#include "stateful/complex_predicates.h"
-#include "stateful/logical_predicates.h"
+#include "predicates/stateful/complex_predicates.h"
+#include "predicates/stateful/logical_predicates.h"
 
 /**
  * - collections/: Predicates for container and sequence operations (e.g., contains, is_empty, is_sorted).

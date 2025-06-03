@@ -3,7 +3,7 @@
 #include <functional>
 #include <type_traits>
 
-#include "../predicate_config.h"
+#include "predicates/predicate_config.h"
 
 namespace tunit
 {

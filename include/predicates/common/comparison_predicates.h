@@ -2,7 +2,7 @@
 
 #include <functional>
 
-#include "../predicate_config.h"
+#include "predicates/predicate_config.h"
 
 namespace tunit
 {

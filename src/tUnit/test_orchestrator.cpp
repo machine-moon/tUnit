@@ -1,7 +1,7 @@
-#include "orchestrator/orchestrator.h"
-#include "orchestrator/assertion.h"
-#include "orchestrator/suite.h"
-#include "orchestrator/test.h"
+#include "tUnit/assertion.h"
+#include "tUnit/test_case.h"
+#include "tUnit/test_orchestrator.h"
+#include "tUnit/test_suite.h"
 #include "utils/trace_support.h"
 #include <iostream>
 
