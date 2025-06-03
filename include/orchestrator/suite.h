@@ -1,29 +1,23 @@
 #pragma once
-
-#include "test.h"
-#include <memory>
 #include <string>
-#include <unordered_map>
+#include <vector>
 
 namespace tunit {
 
-class Suite {
-private:
-  std::string name_;
-  std::size_t passes_;
-  std::size_t fails_;
+class Test;
 
+class Suite {
+public:
   Suite(const std::string &name);
 
-public:
   Test &get_test(const std::string &test_name);
 
-  std::size_t get_passes_count() const;
-  std::size_t get_fails_count() const;
-  const std::string &get_name() const;
+  const std::string &name() const;
 
-  // test results
-  void record_result();
+private:
+  std::string name_;
+  std::vector<std::string>
+      test_names_; // Store test names or IDs for mapping in Orchestrator
 
   friend class Orchestrator;
 };

@@ -1,55 +1,61 @@
 #pragma once
-
-#include "../evaluator.h"
-#include "../utils/trace_support.h"
-#include "orchestrator.h"
-#include <cstdlib>
-#include <map>
 #include <string>
+#include <vector>
+#include <sstream>
+#include "../evaluator.h"
+#include "assertion.h"
 
 namespace tunit {
 
+class Assertion;
+class Orchestrator;
+
 class Test {
-private:
-  std::string name_;
-  std::size_t assertion_count_;
-  std::size_t failed_assertions_;
-  Test(const std::string &name);
-
 public:
-  template <typename T, typename P, typename U>
-  void assert(const std::string &assertion_name, const T &lhs, P pred,
-              const U &rhs, bool expected = true);
-  void assert(const std::string &assertion_name, bool condition,
-              bool expected = true);
+  Test(const std::string &suite_name, const std::string &name);
 
-  std::size_t get_assertion_count() const;
-  std::size_t get_failed_assertions_count() const;
-  const std::string &get_name() const;
-  bool passed() const;
+  template <typename L, typename Predicate, typename R>
+  void assert(const std::string &description, L &&lhs, Predicate pred, R &&rhs);
+
+  const std::string &name() const;
+  const std::string &suite_name() const;
+
+private:
+  std::string suite_name_;
+  std::string name_;
+  std::vector<std::string> assertion_ids_;
 
   friend class Orchestrator;
 };
 
+} // namespace tunit
+
+// Include this after the class declaration to avoid circular dependencies
+#include "orchestrator.h"
+
+namespace tunit {
+
 // Template implementation
-template <typename T, typename P, typename U>
-void Test::assert(const std::string &assertion_name, const T &lhs, P pred,
-                  const U &rhs, bool expected) {
+template <typename L, typename Predicate, typename R>
+void Test::assert(const std::string &description, L &&lhs, Predicate pred, R &&rhs) {
+  // Create evaluator to test the assertion
   Evaluator evaluator(lhs, rhs, pred);
-  bool result = evaluator();
-  assertion_count_++;
+  bool passed = evaluator();
+  
+  // Convert values to strings for logging
+  std::ostringstream lhs_stream, rhs_stream;
+  lhs_stream << lhs;
+  rhs_stream << rhs;
+  
+  // Create assertion object
+  Assertion assertion(description, passed, lhs_stream.str(), rhs_stream.str());
+  
+  // Store assertion ID for tracking
+  assertion_ids_.push_back(description);
 
-  bool assertion_passed = (result == expected); // replaced ASSERT
-  if (!assertion_passed) {
-    failed_assertions_++;
-  }
-
-  // Record result
-  if (assertion_results_.find(assertion_name) == assertion_results_.end()) {
-    assertion_results_[assertion_name] = assertion_passed;
-  } else {
-    throw trace::TracedException("Assertion already exists: " + assertion_name);
-  }
+  // Log with orchestrator
+  Orchestrator::instance().log_assertion(suite_name_, name_,
+                                         std::move(assertion));
 }
 
 } // namespace tunit

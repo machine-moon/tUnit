@@ -1,94 +1,128 @@
 #include "../../include/orchestrator/orchestrator.h"
+#include "../../include/orchestrator/assertion.h"
 #include "../../include/orchestrator/suite.h"
 #include "../../include/orchestrator/test.h"
-
-#include <stdexcept>
+#include <iostream>
 
 namespace tunit {
 
-// Static member definition
-std::unique_ptr<Orchestrator> Orchestrator::instance_ = nullptr;
+Orchestrator *Orchestrator::instance_ = nullptr;
 
-Orchestrator::Orchestrator()
-    : total_passes_(0), total_fails_(0), suites_(), tests_(),
-      assertion_results_() {}
-
-Orchestrator &Orchestrator::get_instance() {
-  if (!instance_) {
-    instance_ = std::unique_ptr<Orchestrator>(new Orchestrator());
+Orchestrator &Orchestrator::instance() {
+  if (instance_ == nullptr) {
+    instance_ = new Orchestrator();
   }
   return *instance_;
 }
 
-Suite &Orchestrator::register_suite(const std::string &suite_name) {
-  auto it = suites_.find(suite_name);
+Suite &Orchestrator::get_suite(const std::string &name) {
+  auto it = suites_.find(name);
   if (it != suites_.end()) {
     return *(it->second);
   }
 
-  Suite *suite = new Suite(suite_name);
-  suites_[suite_name] = suite;
-  return *suite;
-}
-Test &Orchestrator::register_test(Suite *suite, const std::string &test_name) {
-  auto suite_it = suites_.find(suite->get_name());
-  if (suite_it == suites_.end() || suite_it->second != suite) {
-    throw std::runtime_error("Suite not registered for test: " + test_name);
-  }
-
-  auto &suite_tests = tests_[suite];
-
-  auto test_it = suite_tests.find(test_name);
-  if (test_it != suite_tests.end()) {
-    throw std::runtime_error("Test already registered: " + test_name);
-  }
-
-  Test *test = new Test(test_name);
-  suite_tests[test_name] = test;
-  return *test;
+  // Create new suite if it doesn't exist
+  suites_[name] = std::make_unique<Suite>(name);
+  return *(suites_[name]);
 }
 
-void Orchestrator::register_result(Test *test, bool result) {
-  assertion_results_[test] = result;
-  if (result) {
-    total_passes_++;
-  } else {
-    total_fails_++;
+Test &Orchestrator::get_test(const std::string &suite_name, const std::string &test_name) {
+  // Create a unique key for the test
+  std::string test_key = suite_name + "::" + test_name;
+  
+  auto it = tests_.find(test_key);
+  if (it != tests_.end()) {
+    return *(it->second);
   }
+
+  // Create new test if it doesn't exist
+  tests_[test_key] = std::make_unique<Test>(suite_name, test_name);
+  return *(tests_[test_key]);
 }
 
-Test &Orchestrator::get_test(const std::string &test_name) {
-  for (auto &suite_pair : tests_) {
-    auto &suite_tests = suite_pair.second;
-    auto test_it = suite_tests.find(test_name);
-    if (test_it != suite_tests.end()) {
-      return *(test_it->second);
+void Orchestrator::log_assertion(const std::string &suite_name,
+                                const std::string &test_name, 
+                                Assertion &&assertion) {
+  std::string test_key = suite_name + "::" + test_name;
+  assertions_[test_key].emplace_back(std::move(assertion));
+}
+
+const std::unordered_map<std::string, std::unique_ptr<Suite>> &Orchestrator::suites() const {
+  return suites_;
+}
+
+const std::unordered_map<std::string, std::unique_ptr<Test>> &Orchestrator::tests() const {
+  return tests_;
+}
+
+const std::vector<Assertion> &Orchestrator::assertions_for(const std::string &suite_name,
+                                                          const std::string &test_name) const {
+  std::string test_key = suite_name + "::" + test_name;
+  auto it = assertions_.find(test_key);
+  if (it != assertions_.end()) {
+    return it->second;
+  }
+  
+  // Return empty vector if no assertions found
+  static const std::vector<Assertion> empty_vector;
+  return empty_vector;
+}
+
+bool Orchestrator::all_tests_passed() const {
+  for (const auto &[test_key, assertions] : assertions_) {
+    for (const auto &assertion : assertions) {
+      if (!assertion.passed) {
+        return false;
+      }
     }
   }
-  throw std::runtime_error("Test not found: " + test_name);
+  return true;
 }
 
-Suite &Orchestrator::get_suite(const std::string &suite_name) {
-  auto it = suites_.find(suite_name);
-  if (it == suites_.end()) {
-    throw std::runtime_error("Suite not found: " + suite_name);
+size_t Orchestrator::total_assertions() const {
+  size_t total = 0;
+  for (const auto &[test_key, assertions] : assertions_) {
+    total += assertions.size();
   }
-  return *(it->second);
+  return total;
 }
 
-bool Orchestrator::all_suites_passed() const {
-  return total_fails_ == 0 && total_passes_ > 0;
+size_t Orchestrator::failed_assertions() const {
+  size_t failed = 0;
+  for (const auto &[test_key, assertions] : assertions_) {
+    for (const auto &assertion : assertions) {
+      if (!assertion.passed) {
+        failed++;
+      }
+    }
+  }
+  return failed;
 }
 
-std::size_t Orchestrator::get_total_passes_count() const {
-  return total_passes_;
-}
+void Orchestrator::print_summary() const {
+  size_t total = total_assertions();
+  size_t failed = failed_assertions();
+  size_t passed = total - failed;
 
-std::size_t Orchestrator::get_total_fails_count() const { return total_fails_; }
+  std::cout << "\n=== Test Summary ===" << std::endl;
+  std::cout << "Total assertions: " << total << std::endl;
+  std::cout << "Passed: " << passed << std::endl;
+  std::cout << "Failed: " << failed << std::endl;
 
-void Orchestrator::record_test_result(const std::string &file_name) {
-  // Implementation depends on your requirements.
-  // For now, this can be left empty or log the file name.
+  if (failed > 0) {
+    std::cout << "\nFailed assertions:" << std::endl;
+    for (const auto &[test_key, assertions] : assertions_) {
+      for (const auto &assertion : assertions) {
+        if (!assertion.passed) {
+          std::cout << "  [" << test_key << "] " << assertion.description
+                    << ": " << assertion.lhs_str << " vs " << assertion.rhs_str
+                    << std::endl;
+        }
+      }
+    }
+  }
+
+  std::cout << "===================" << std::endl;
 }
 
 } // namespace tunit

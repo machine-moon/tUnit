@@ -1,39 +1,20 @@
 #include "../../include/orchestrator/test.h"
-#include "../../include/orchestrator/suite.h"
+#include "../../include/orchestrator/orchestrator.h"
 
 namespace tunit {
 
-Test::Test(const std::string &name)
-    : name_(name), assertion_count_(0), failed_assertions_(0),
-      assertion_results_() {}
+Test::Test(const std::string &suite_name, const std::string &name)
+    : suite_name_(suite_name), name_(name) {}
 
-void Test::assert(const std::string &assertion_name, bool condition,
-                  bool expected) {
-  assertion_count_++;
-
-  bool assertion_passed = (condition == expected); // replaced ASSERT
-  if (!assertion_passed) {
-    failed_assertions_++;
-  }
-
-  // Record result
-  if (assertion_results_.find(assertion_name) == assertion_results_.end()) {
-    assertion_results_[assertion_name] = assertion_passed;
-  } else {
-    throw trace::TracedException("Assertion already exists: " + assertion_name);
-  }
+const std::string &Test::name() const {
+  return name_;
 }
 
-std::size_t Test::get_assertion_count() const { return assertion_count_; }
-
-std::size_t Test::get_failed_assertions_count() const {
-  return failed_assertions_;
+const std::string &Test::suite_name() const {
+  return suite_name_;
 }
 
-const std::string &Test::get_name() const { return name_; }
-
-bool Test::passed() const {
-  return failed_assertions_ == 0 && assertion_count_ > 0;
-}
+// Helper function for template implementation
+Orchestrator &get_orchestrator_instance() { return Orchestrator::instance(); }
 
 } // namespace tunit
