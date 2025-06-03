@@ -9,7 +9,7 @@
 
 #include "predicates/predicate_config.h"
 
-namespace tunit
+namespace tUnit
 {
 namespace predicates
 {
@@ -401,4 +401,4 @@ struct is_permutation_of
 };
 
 } // namespace predicates
-} // namespace tunit
+} // namespace tUnit

@@ -1,13 +1,13 @@
-#include "tunit.h"
+#include "tUnit.h"
 #include <algorithm>
 #include <string>
 #include <vector>
 
 namespace
 {
-namespace pred = tunit::predicates;
+namespace pred = tUnit::predicates;
 
-auto &suite = tunit::Orchestrator::instance().get_suite("Integration Tests");
+auto &suite = tUnit::Orchestrator::instance().get_suite("Integration Tests");
 
 void test_complex_container_logic()
 {

@@ -5,7 +5,7 @@
 #include <type_traits>
 #include <utility>
 
-namespace tunit
+namespace tUnit
 {
 
 template <typename T, typename U = T, typename P = bool (*)(const T &, const U &)>
@@ -25,4 +25,4 @@ public:
   bool operator()() const { return this->evaluate(); }
 };
 
-} // namespace tunit
+} // namespace tUnit

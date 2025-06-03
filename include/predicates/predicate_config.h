@@ -16,5 +16,5 @@
 #else
 #define TUNIT_CONSTEXPR
 #include "utils/trace_support.h"
-#define TUNIT_TRACE_PREDICATE(name) TUNIT_TRACE_SCOPE("predicate: " name)
+#define TUNIT_TRACE_PREDICATE(name) TUNIT_SCOPED_TRACE("predicate: " name)
 #endif

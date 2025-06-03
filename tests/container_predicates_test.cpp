@@ -1,12 +1,12 @@
-#include "tunit.h"
+#include "tUnit.h"
 #include <string>
 #include <vector>
 
 namespace
 {
-namespace pred = tunit::predicates;
+namespace pred = tUnit::predicates;
 
-auto &suite = tunit::Orchestrator::instance().get_suite("Container Predicates");
+auto &suite = tUnit::Orchestrator::instance().get_suite("Container Predicates");
 
 void test_container_element_predicates()
 {

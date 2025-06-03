@@ -5,7 +5,7 @@
 #include "utils/trace_support.h"
 #include <iostream>
 
-namespace tunit
+namespace tUnit
 {
 
 Orchestrator *Orchestrator::instance_ = nullptr;
@@ -148,4 +148,4 @@ void Orchestrator::print_summary() const
   std::cout << "===================" << std::endl;
 }
 
-} // namespace tunit
+} // namespace tUnit

@@ -1,11 +1,11 @@
-#include "tunit.h"
+#include "tUnit.h"
 #include <string>
 
 namespace
 {
-namespace pred = tunit::predicates;
+namespace pred = tUnit::predicates;
 
-auto &suite = tunit::Orchestrator::instance().get_suite("Complex Predicates");
+auto &suite = tUnit::Orchestrator::instance().get_suite("Complex Predicates");
 
 void test_all_of_predicate()
 {

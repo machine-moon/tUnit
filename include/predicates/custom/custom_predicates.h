@@ -8,7 +8,7 @@
 
 #include "predicates/predicate_config.h"
 
-namespace tunit::predicates
+namespace tUnit::predicates
 {
 
 /**
@@ -74,4 +74,4 @@ struct is_prime
   }
 };
 
-} // namespace tunit::predicates
+} // namespace tUnit::predicates

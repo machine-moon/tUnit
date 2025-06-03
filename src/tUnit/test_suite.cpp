@@ -2,7 +2,7 @@
 #include "tUnit/test_case.h"
 #include "tUnit/test_orchestrator.h"
 
-namespace tunit
+namespace tUnit
 {
 
 Suite::Suite(const std::string &name) : name_(name) {}
@@ -25,4 +25,4 @@ const std::string &Suite::name() const
   return name_;
 }
 
-} // namespace tunit
+} // namespace tUnit

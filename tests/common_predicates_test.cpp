@@ -1,13 +1,13 @@
-#include "tunit.h"
+#include "tUnit.h"
 #include <iostream>
 #include <string>
 #include <string_view>
 
 namespace
 {
-namespace pred = tunit::predicates;
+namespace pred = tUnit::predicates;
 
-auto &suite = tunit::Orchestrator::instance().get_suite("Common Predicates");
+auto &suite = tUnit::Orchestrator::instance().get_suite("Common Predicates");
 
 void test_basic_comparisons()
 {

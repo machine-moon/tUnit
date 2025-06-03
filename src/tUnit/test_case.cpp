@@ -1,7 +1,7 @@
 #include "tUnit/test_case.h"
 #include "tUnit/test_orchestrator.h"
 
-namespace tunit
+namespace tUnit
 {
 
 Test::Test(const std::string &suite_name, const std::string &name) : suite_name_(suite_name), name_(name) {}
@@ -23,4 +23,4 @@ const std::string &Test::suite_name() const { return suite_name_; }
 // Helper function for template implementation
 Orchestrator &get_orchestrator_instance() { return Orchestrator::instance(); }
 
-} // namespace tunit
+} // namespace tUnit

@@ -9,7 +9,7 @@
 
 #include "predicates/predicate_config.h"
 
-namespace tunit
+namespace tUnit
 {
 namespace predicates
 {
@@ -149,4 +149,4 @@ struct implies
 };
 
 } // namespace predicates
-} // namespace tunit
+} // namespace tUnit

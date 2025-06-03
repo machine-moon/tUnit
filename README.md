@@ -13,7 +13,7 @@ TUnit consists of three core components working together:
 ### 1. Evaluator System
 The central evaluation engine that processes predicates against test values:
 ```cpp
-tunit::Evaluator eval(10, 20, pred::is_less{});
+tUnit::Evaluator eval(10, 20, pred::is_less{});
 bool result = eval.evaluate();
 ```
 
@@ -27,7 +27,7 @@ A comprehensive collection of type-safe, composable predicates organized into ca
 ### 3. Test Runner
 Organizes tests into suites with automatic result tracking and reporting:
 ```cpp
-auto& suite = tunit::Runner::get_suite("Test Suite Name");
+auto& suite = tUnit::Runner::get_suite("Test Suite Name");
 suite.test("description", value1, predicate, value2);
 ```
 
@@ -59,15 +59,15 @@ TUNIT_SCOPED_TRACE("Testing complex function");
 
 ```cpp
 #include "include/tsuite.h"
-namespace pred = tunit::predicates;
+namespace pred = tUnit::predicates;
 
 int main() {
-    auto& suite = tunit::Runner::get_suite("Basic Tests");
+    auto& suite = tUnit::Runner::get_suite("Basic Tests");
     
     suite.test("equality check", 5, pred::is_equal{}, 5);
     suite.test("range validation", pred::is_in_range{}(7, 1, 10));
     
-    return tunit::Runner::all_tests_passed() ? 0 : 1;
+    return tUnit::Runner::all_tests_passed() ? 0 : 1;
 }
 ```
 

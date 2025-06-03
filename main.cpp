@@ -31,28 +31,30 @@ struct IsEqualFunctor {
 };
 
 // Test 4: Lambda expression predicate
-auto is_equal_lambda = [](const auto &lhs, const auto &rhs) { return tunit::predicates::is_equal{}(lhs, rhs); };
+auto is_equal_lambda = [](const auto &lhs, const auto &rhs)
+{ return tUnit::predicates::is_equal{}(lhs, rhs); };
 
 int main() {
   // Test 1: Template function predicate
-  tunit::Evaluator test1(1, 1, is_equal_func);
+  tUnit::Evaluator test1(1, 1, is_equal_func);
 
   // Test 2: Namespaced template function predicate (ugly implicit deduction)
-  tunit::Evaluator test2(1, 1, someSpace::is_greater_equal<int>);
+  tUnit::Evaluator test2(1, 1, someSpace::is_greater_equal<int>);
 
   // To avoid implicit function predicates:
   int valA{};
   int valB{};
-  tunit::Evaluator testDecla(valA, valB, someSpace::is_greater_equal<decltype(valA)>); // better but still ugly
+  tUnit::Evaluator testDecla(valA, valB, someSpace::is_greater_equal<decltype(valA)>); // better but still ugly
 
   // Test 3: Function object (functor) predicate - best option
-  tunit::Evaluator test3(1, 1, IsEqualFunctor{});
+  tUnit::Evaluator test3(1, 1, IsEqualFunctor{});
 
   // Test 4: Lambda expression predicate
-  tunit::Evaluator test4(1, 1, is_equal_lambda);
+  tUnit::Evaluator test4(1, 1, is_equal_lambda);
 
   // Test 5: Inline lambda predicate
-  tunit::Evaluator test5(1, 1, [](const auto &lhs, const auto &rhs) { return lhs == rhs; });
+  tUnit::Evaluator test5(1, 1, [](const auto &lhs, const auto &rhs)
+                         { return lhs == rhs; });
 
   // Output test results
   std::cout << "\ntest1 (template function): " << test1();

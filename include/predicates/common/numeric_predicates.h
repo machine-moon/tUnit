@@ -5,7 +5,7 @@
 
 #include "predicates/predicate_config.h"
 
-namespace tunit
+namespace tUnit
 {
 namespace predicates
 {
@@ -130,4 +130,4 @@ struct is_zero
 };
 
 } // namespace predicates
-} // namespace tunit
+} // namespace tUnit

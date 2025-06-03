@@ -1,20 +1,18 @@
-#include "tunit.h"
+#include "tUnit.h"
 #include <stdexcept>
 #include <string>
 
 namespace
 {
-namespace pred = tunit::predicates;
-using namespace tunit::trace;
 
-auto &suite = tunit::Orchestrator::instance().get_suite("Exception Tracing");
+auto &suite = tUnit::Orchestrator::instance().get_suite("Exception Tracing");
 
 bool throwing_predicate(int value)
 {
   TUNIT_TRACE_FUNCTION();
   if (value < 0)
   {
-    throw_traced("Value must be non-negative, got: " + std::to_string(value));
+    tUnit::trace::throw_traced("Value must be non-negative, got: " + std::to_string(value));
   }
   return value > 10;
 }
@@ -25,7 +23,7 @@ bool nested_complex_predicate(int value)
   if (value == 42)
   {
     TUNIT_SCOPED_TRACE("special_case_handler");
-    throw_traced("Special case value 42 is not allowed");
+    tUnit::trace::throw_traced("Special case value 42 is not allowed");
   }
   return throwing_predicate(value);
 }
@@ -36,7 +34,7 @@ bool complex_logical_predicate(int value)
   if (value == 999)
   {
     TUNIT_SCOPED_TRACE("overflow_check");
-    throw_traced("Value 999 causes overflow in calculation");
+    tUnit::trace::throw_traced("Value 999 causes overflow in calculation");
   }
   return nested_complex_predicate(value);
 }
@@ -49,7 +47,7 @@ void test_basic_exception_tracing()
     throwing_predicate(-5);
     test.expect("Should not reach here after exception", false, true);
   }
-  catch (const TracedException &e)
+  catch (const tUnit::trace::TracedException &e)
   {
     bool has_trace = !e.get_trace_stack().empty();
     test.expect("Basic exception contains trace information", has_trace, true);
@@ -70,7 +68,7 @@ void test_nested_exception_tracing()
     nested_complex_predicate(42);
     test.expect("Should not reach here after nested exception", false, true);
   }
-  catch (const TracedException &e)
+  catch (const tUnit::trace::TracedException &e)
   {
     auto trace_stack = e.get_trace_stack();
     bool has_nested_traces = trace_stack.size() >= 2;
@@ -98,7 +96,7 @@ void test_deep_nesting_exception_tracing()
     complex_logical_predicate(999);
     test.expect("Should not reach here after deep nested exception", false, true);
   }
-  catch (const TracedException &e)
+  catch (const tUnit::trace::TracedException &e)
   {
     bool has_trace = !e.get_trace_stack().empty();
     test.expect("Deep nested exception contains trace information", has_trace, true);

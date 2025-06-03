@@ -6,22 +6,17 @@
 #include <sstream>
 #include <stdexcept>
 #include <string>
-#include <string_view>
 #include <vector>
 
-namespace tunit
+namespace tUnit
 {
 namespace trace
 {
 
-#define TUNIT_SCOPED_TRACE(message)                                      \
-  tunit::trace::ScopedTrace _scoped_trace_##__LINE__(__FILE__, __LINE__, \
-                                                     (message))
+#define TUNIT_SCOPED_TRACE(message) \
+  tUnit::trace::ScopedTrace _scoped_trace_##__LINE__(__FILE__, __LINE__, (message))
 
-#define TUNIT_TRACE_SCOPE(name) \
-  tunit::trace::ScopedTrace _trace_scope_##__LINE__(__FILE__, __LINE__, (name))
-
-#define TUNIT_TRACE_FUNCTION() TUNIT_TRACE_SCOPE(__func__)
+#define TUNIT_TRACE_FUNCTION() TUNIT_SCOPED_TRACE(__func__)
 
 struct TraceInfo
 {
@@ -189,4 +184,34 @@ template <typename... Args>
 }
 
 } // namespace trace
-} // namespace tunit
+} // namespace tUnit
+
+/*
+ * ===============================================================================
+ * TRACE SYSTEM USAGE GUIDE
+ * ===============================================================================
+ *
+ * This trace system provides automatic call stack tracking for debugging test
+ * failures and framework errors. When exceptions are thrown using throw_traced(),
+ * they automatically include a trace of where the error occurred.
+ *
+ * ===============================================================================
+ * WHEN TO USE EACH
+ * ===============================================================================
+ *
+ * TUNIT_TRACE_FUNCTION():
+ * - Use at the beginning of any function you want to track
+ * - Automatically uses the function name as the trace message
+ * - Essential for predicates, test functions, and complex framework methods
+ *
+ * TUNIT_SCOPED_TRACE(message):
+ * - Use for custom trace points within a function
+ * - Great for marking different phases of complex operations
+ * - Use descriptive messages like "validation_phase" or "error_handling"
+ *
+ * tUnit::trace::throw_traced():
+ * - Use instead of regular exceptions to include trace information
+ * - Automatically captures the current trace context
+ * - Provides a detailed error message with the full trace stack
+ * - Use for any error condition in predicates, test cases, or framework logic
+ */

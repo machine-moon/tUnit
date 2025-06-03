@@ -5,7 +5,7 @@
 
 #include "predicates/predicate_config.h"
 
-namespace tunit
+namespace tUnit
 {
 namespace predicates
 {
@@ -62,4 +62,4 @@ struct ends_with
 };
 
 } // namespace predicates
-} // namespace tunit
+} // namespace tUnit

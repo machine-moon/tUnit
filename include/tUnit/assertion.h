@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-namespace tunit
+namespace tUnit
 {
 
 class Assertion
@@ -13,4 +13,4 @@ public:
   Assertion(const std::string &desc, bool result) : description_(desc), result_(result) {}
 };
 
-} // namespace tunit
+} // namespace tUnit

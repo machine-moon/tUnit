@@ -10,7 +10,7 @@
 
 #include "predicates/predicate_config.h"
 
-namespace tunit
+namespace tUnit
 {
 namespace predicates
 {
@@ -200,4 +200,4 @@ template <typename... Preds>
 at_most_n_of(std::size_t, Preds &&...) -> at_most_n_of<std::decay_t<Preds>...>;
 
 } // namespace predicates
-} // namespace tunit
+} // namespace tUnit

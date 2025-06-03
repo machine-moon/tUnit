@@ -3,7 +3,7 @@
 #include <unordered_map>
 #include <vector>
 
-namespace tunit
+namespace tUnit
 {
 
 class Test;
@@ -24,4 +24,4 @@ private:
   friend class Orchestrator;
 };
 
-} // namespace tunit
+} // namespace tUnit

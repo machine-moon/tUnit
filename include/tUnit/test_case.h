@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-namespace tunit
+namespace tUnit
 {
 
 class Assertion;
@@ -30,11 +30,11 @@ private:
   friend class Orchestrator;
 };
 
-} // namespace tunit
+} // namespace tUnit
 
 #include "tUnit/test_orchestrator.h"
 
-namespace tunit
+namespace tUnit
 {
 
 // Template implementation
@@ -51,4 +51,4 @@ void Test::assert(const std::string &description, const T &lhs, P pred, const U 
   Orchestrator::instance().log_assertion(suite_name_, name_, std::move(assertion));
 }
 
-} // namespace tunit
+} // namespace tUnit

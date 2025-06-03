@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <vector>
 
-namespace tunit
+namespace tUnit
 {
 
 class Suite;
@@ -46,4 +46,4 @@ private:
   static Orchestrator *instance_;
 };
 
-} // namespace tunit
+} // namespace tUnit

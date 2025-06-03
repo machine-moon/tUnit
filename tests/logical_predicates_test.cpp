@@ -1,10 +1,10 @@
-#include "tunit.h"
+#include "tUnit.h"
 
 namespace
 {
-namespace pred = tunit::predicates;
+namespace pred = tUnit::predicates;
 
-auto &suite = tunit::Orchestrator::instance().get_suite("Logical Predicates");
+auto &suite = tUnit::Orchestrator::instance().get_suite("Logical Predicates");
 
 void test_and_predicate()
 {
