@@ -11,7 +11,7 @@
 #define TUNIT_MODE 1 
 #endif
 
-#if TUNIT_MODE
+#if 0   // TUNIT_MODE
 #define TUNIT_CONSTEXPR constexpr
 #define TUNIT_TRACE_PREDICATE(name) ((void)0)
 #else

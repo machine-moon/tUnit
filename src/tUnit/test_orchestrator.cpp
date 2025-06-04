@@ -130,28 +130,71 @@ void Orchestrator::print_summary() const
   size_t failed = failed_assertions();
   size_t passed = total - failed;
 
-  std::cout << "\n=== Test Summary ===" << "\n";
+  std::cout << "\n";
+
+  // Group tests by suite
+  std::unordered_map<std::string, std::vector<std::pair<std::string, const Test *>>> suites_map;
+  for (const auto &[test_key, test] : tests_)
+  {
+    suites_map[test->suite_name()].emplace_back(test->name(), test.get());
+  }
+
+  for (const auto &[suite_name, suite_tests] : suites_map)
+  {
+    std::cout << "--- " << suite_name << " ---\n";
+
+    for (const auto &[test_name, test] : suite_tests)
+    {
+      std::string test_key = test->suite_name() + "::" + test->name();
+      auto assertions_it = assertions_.find(test_key);
+
+      bool test_has_failures = false;
+      std::vector<std::string> failed_descriptions;
+
+      if (assertions_it != assertions_.end())
+      {
+        const auto &assertions = assertions_it->second;
+        for (const auto &assertion : assertions)
+        {
+          if (!assertion.result_)
+          {
+            test_has_failures = true;
+            failed_descriptions.push_back(assertion.description_);
+          }
+        }
+      }
+
+      if (test_has_failures)
+      {
+        std::cout << "[FAIL] " << test_name << "\n";
+        for (const auto &desc : failed_descriptions)
+        {
+          std::cout << "       " << desc << "\n";
+        }
+      }
+      else
+      {
+        std::cout << "[PASS] " << test_name << "\n";
+      }
+    }
+    std::cout << "\n";
+  }
+
+  std::cout << "--- Total Summary ---\n";
   std::cout << "Total assertions: " << total << "\n";
   std::cout << "Passed: " << passed << "\n";
   std::cout << "Failed: " << failed << "\n";
 
-  if (failed > 0)
+  if (failed == 0)
   {
-    std::cout << "===================" << "\n";
-    std::cout << "Failed assertions:" << "\n";
-    for (const auto &[test_key, assertions] : assertions_)
-    {
-      for (const auto &assertion : assertions)
-      {
-        if (!assertion.result_)
-        {
-          std::cout << "  [" << test_key << "] " << assertion.description_ << "\n";
-        }
-      }
-    }
+    std::cout << "All tests passed!\n";
+  }
+  else
+  {
+    std::cout << failed << " assertion(s) failed\n";
   }
 
-  std::cout << "===================" << std::endl;
+  std::cout << "====================\n" << std::endl;
 }
 
 void Orchestrator::parse_args(int argc, char *argv[])
@@ -172,9 +215,10 @@ void Orchestrator::parse_args(int argc, char *argv[])
 
 void Orchestrator::write_xml_output() const
 {
+  // No XML output requested
   if (xml_output_path_.empty())
   {
-    return; // No XML output requested
+    return; 
   }
 
   std::ofstream xml_file(xml_output_path_);

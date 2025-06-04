@@ -16,29 +16,29 @@ namespace tUnit
 namespace trace
 {
 
-#define TUNIT_SCOPED_TRACE(message) \
-  tUnit::trace::ScopedTrace _scoped_trace_##__LINE__(__FILE__, __LINE__, (message))
+#define TUNIT_SCOPED_TRACE(msg) \
+  tUnit::trace::ScopedTrace _scoped_trace_##__LINE__(__FILE__, __LINE__, (msg))
 
 #define TUNIT_TRACE_FUNCTION() TUNIT_SCOPED_TRACE(__func__)
 
 struct TraceInfo
 {
-  std::string file;
-  std::int32_t line;
-  std::string message;
+  std::string file_;
+  std::int32_t line_;
+  std::string msg_;
 
-  TraceInfo(const std::string &file_path, std::int32_t line_num, const std::string &msg) : file(file_path), line(line_num), message(msg) {}
+  TraceInfo(const std::string &file, std::int32_t line, const std::string &msg) : file_(file), line_(line), msg_(msg) {}
 
   std::string to_string() const
   {
     std::ostringstream oss;
-    if (!file.empty())
+    if (!file_.empty())
     {
-      oss << file << ":" << line << ": " << message;
+      oss << file_ << ":" << line_ << ": " << msg_;
     }
     else
     {
-      oss << message;
+      oss << msg_;
     }
     return oss.str();
   }

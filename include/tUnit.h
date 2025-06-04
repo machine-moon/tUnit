@@ -1,16 +1,13 @@
 /**
- * @file tUnit.h
- * @brief Single-header include for the complete tUnit testing framework.
- *
- * This header aggregates all core components of the tUnit testing framework:
- *   - Predicates:         predicates/all_predicates.h
- *   - Assertions:         tUnit/assertion.h
- *   - Test cases:         tUnit/test_case.h
- *   - Test orchestrator:  tUnit/test_orchestrator.h
- *   - Test suites:        tUnit/test_suite.h
- *   - release asserts:    utils/release_asserts.h
- *   - Trace utilities:    utils/trace_support.h
- *   - Core evaluator:     evaluator.h
+ * Single-header include for the complete tUnit testing framework.
+ * Predicates:         predicates/all_predicates.h
+ * Assertions:         tUnit/assertion.h
+ * Test cases:         tUnit/test_case.h
+ * Test orchestrator:  tUnit/test_orchestrator.h
+ * Test suites:        tUnit/test_suite.h
+ * Release asserts:    utils/release_asserts.h
+ * Trace utilities:    utils/trace_support.h
+ * Evaluator:     evaluator.h
  */
 #pragma once
 
